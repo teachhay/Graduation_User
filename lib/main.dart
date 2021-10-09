@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:userapp/models/user.dart';
+import 'package:userapp/screens/Home/index.dart';
+import 'package:userapp/screens/login/index.dart';
 import 'package:userapp/screens/profile/index.dart';
 import 'package:userapp/services/index.dart';
 
@@ -18,7 +20,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Profile(),
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/login',
+      routes: {
+        // When navigating to the "/" route, build the FirstScreen widget.
+        '/login': (context) => const LoginScreen(),
+        // When navigating to the "/second" route, build the SecondScreen widget.
+        '/home': (context) => const HomeScreen(),
+      },
     );
   }
 }
