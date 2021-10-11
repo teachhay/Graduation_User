@@ -21,8 +21,13 @@ class _DetailByCategoryState extends State<DetailByCategory> {
             floating: false,
             pinned: true,
             snap: false,
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
             flexibleSpace: FlexibleSpaceBar(
-              title: const Text("Category Detail"),
+              title: const Text(
+                "Category Detail",
+                style: TextStyle(color: Colors.black),
+              ),
               background: SizedBox(
                 height: 80,
                 child: Image.network("https://source.unsplash.com/random", fit: BoxFit.cover),
