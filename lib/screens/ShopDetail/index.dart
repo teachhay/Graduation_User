@@ -15,21 +15,26 @@ class _ShopDetailState extends State<ShopDetail> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.all(8),
-            child: Column(
-              children: [
-                for (var i = 0; i < 16; i++)
+          child: Column(
+            children: [
+              Stack(
+                children: [
                   Container(
-                    margin: const EdgeInsets.only(top: 8, bottom: 8),
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: Colors.accents[i],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+                    height: 200,
+                    color: Colors.red,
                   ),
-              ],
-            ),
+                ],
+              ),
+              for (var i = 0; i < 16; i++)
+                Container(
+                  margin: const EdgeInsets.only(top: 8, bottom: 8),
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: Colors.accents[i],
+                    // borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+            ],
           ),
         ),
       ),
