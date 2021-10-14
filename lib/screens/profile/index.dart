@@ -1,94 +1,76 @@
 import 'package:flutter/material.dart';
 import 'package:userapp/models/user.dart';
 import 'package:userapp/services/index.dart';
+import 'package:userapp/widgets/appbar.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
-  _ProfileState createState() => _ProfileState();
+  _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileState extends State<Profile> {
-  final firstnamController = TextEditingController();
-  final lastnameController = TextEditingController();
-  User? user;
-
-  void onClick() async {
-    user = await login();
-
-    firstnamController.text = user!.firstName.toString();
-    lastnameController.text = user!.lastName.toString();
-  }
-
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 8),
-                    child: Text(
-                      "Firstname",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
-                      ),
-                    ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(0),
+          child: Column(
+            children: [
+              Container(
+                height: 250,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(14),
+                    bottomRight: Radius.circular(14),
                   ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                    ),
-                    readOnly: true,
-                    controller: firstnamController,
-                  ),
-                ],
+                  color: Colors.grey.shade300,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 8),
-                    child: Text(
-                      "Lastname",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                    ),
-                    readOnly: true,
-                    controller: lastnameController,
-                  ),
-                ],
+              const SizedBox(height: 10),
+              SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: [
+                    for (var i = 0; i < 5; i++)
+                      Container(
+                        margin: const EdgeInsets.all(8),
+                        height: 50,
+                        color: Colors.accents[i],
+                      )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: onClick,
-        tooltip: 'Show me the value!',
-        child: Icon(Icons.text_fields),
-      ),
+      // bottomNavigationBar: Container(
+      //   padding: const EdgeInsets.all(15),
+      //   height: 70,
+      //   decoration: BoxDecoration(
+      //     color: Colors.white,
+      //     borderRadius: const BorderRadius.only(
+      //       topLeft: Radius.circular(12),
+      //       topRight: Radius.circular(12),
+      //     ),
+      //     boxShadow: [
+      //       BoxShadow(
+      //         blurRadius: 6,
+      //         offset: const Offset(0, -2),
+      //         color: Colors.black.withOpacity(0.3),
+      //       ),
+      //     ],
+      //   ),
+      //   child: ElevatedButton(
+      //     onPressed: () {
+      //       print("Logout Clicked");
+      //     },
+      //     child: const Text("Logout"),
+      //   ),
+      // ),
     );
   }
 }
