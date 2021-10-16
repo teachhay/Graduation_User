@@ -2,11 +2,15 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:userapp/constants/api.dart';
 import 'package:intl/intl.dart';
+import 'package:userapp/models/sell_company.model.dart';
 import 'package:userapp/screens/Home/components/category_list_card.dart';
 import 'package:userapp/screens/Home/components/shop_card.dart';
+import 'package:userapp/screens/home/index.dart';
 import 'package:userapp/screens/profile/index.dart';
+import 'package:userapp/services/sell_company.service.dart';
 import 'package:userapp/widgets/appbar.dart';
 import 'package:userapp/widgets/botton_navigation_bar.dart';
+import 'package:userapp/widgets/section_title.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -16,51 +20,87 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<String> items = List.generate(15, (index) => 'Hello ${index + 1}');
-  int currentIndex = 0;
+  // int currentIndex = 0;
 
-  _onTapButton(index) {
-    setState(() {
-      currentIndex = index;
-    });
-  }
+  // _onTapButton(index) {
+  //   setState(() {
+  //     currentIndex = index;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: currentIndex == 0
-          ? CustomAppBar(
-              title: currentIndex == 0 ? const Text("Home Page") : const Text("Profile Page"),
-              widgets: [
-                if (currentIndex == 0) IconButton(onPressed: () => Navigator.pushNamed(context, "/cart"), icon: const Icon(Icons.shopping_cart)),
-              ],
-            )
-          : null,
-      // appBar: CustomAppBar(
-      //   title: currentIndex == 0 ? const Text("Home Page") : const Text("Profile Page"),
-      //   widgets: [
-      //     if (currentIndex == 0) IconButton(onPressed: () => Navigator.pushNamed(context, "/cart"), icon: const Icon(Icons.shopping_cart)),
-      //   ],
-      // ),
-      body: IndexedStack(
-        index: currentIndex,
-        children: const [
-          HomePage(),
-          ProfileScreen(),
+      appBar: CustomAppBar(
+        title: const Text("Home Page"),
+        widgets: [
+          IconButton(onPressed: () => Navigator.pushNamed(context, "/cart"), icon: const Icon(Icons.shopping_cart)),
         ],
       ),
-      bottomNavigationBar: CustomNavigationBar(
-        selectedIndex: currentIndex,
-        onTap: _onTapButton,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              padding: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
+                image: DecorationImage(
+                  image: NetworkImage("https://source.unsplash.com/random"),
+                  fit: BoxFit.cover,
+                  alignment: Alignment.topCenter,
+                ),
+              ),
+              child: Container(
+                alignment: Alignment.bottomLeft,
+                child: const Text(
+                  "User 1",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.account_box),
+              title: const Text("Profile"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, "/profile");
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.list_alt),
+              title: const Text("Orders"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, "/order");
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.comment),
+              title: const Text("Reviews"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, "/review");
+              },
+            ),
+          ],
+        ),
       ),
+      body: const HomePage(),
+      // bottomNavigationBar: CustomNavigationBar(
+      //   selectedIndex: currentIndex,
+      //   onTap: _onTapButton,
+      // ),
     );
   }
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({
-    Key? key,
-  }) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -90,22 +130,33 @@ class HomePage extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           const Divider(thickness: 1, indent: 50, endIndent: 50),
-          const Text(
-            "Category",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          const SizedBox(height: 10),
+          const SectionTitle(title: "Category"),
           const CategoryList(),
-          const Text(
-            "Shops",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+          const SizedBox(height: 10),
+          const SectionTitle(title: "Shops"),
+          FutureBuilder<List<SellCompany>>(
+            future: fetchShops(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.done) {
+                return const SizedBox(height: 150, child: Center(child: CircularProgressIndicator()));
+              }
+              if (snapshot.hasError) {
+                return const Center(child: Text('An error has occurred!'));
+              }
+
+              List<SellCompany> shops = snapshot.data ?? [];
+
+              return SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: [
+                    for (var i in shops) ShopCard(sellCompany: i),
+                  ],
+                ),
+              );
+            },
           ),
-          for (var i = 0; i < 5; i++) const ShopCard(),
         ],
       ),
     );

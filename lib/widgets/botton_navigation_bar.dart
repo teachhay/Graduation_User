@@ -30,7 +30,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
       padding: padding,
       unselectedItemColor: Colors.black,
       selectedItemColor: Colors.white,
-      backgroundColor: Colors.grey.shade300,
+      backgroundColor: Colors.grey.shade200,
       // snakeViewGradient: selectedGradient,
       // selectedItemGradient: snakeShape == SnakeShape.indicator ? selectedGradient : null,
       // unselectedItemGradient: unselectedGradient,

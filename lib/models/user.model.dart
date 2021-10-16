@@ -1,6 +1,7 @@
-import 'package:userapp/models/address.dart';
+import 'package:userapp/models/address.model.dart';
 
 class User {
+  final int id;
   final String? firstName;
   final String? lastName;
   final String? phoneNumber;
@@ -13,6 +14,7 @@ class User {
   final Address? address;
 
   const User({
+    required this.id,
     required this.firstName,
     required this.lastName,
     required this.phoneNumber,
@@ -27,16 +29,17 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
+      id: json["id"] as int,
       firstName: json["firstName"] as String,
       lastName: json["lastName"] as String,
       phoneNumber: json["phoneNumber"] as String,
-      dob: DateTime.parse(json["dob"])  as DateTime,
+      dob: DateTime.parse(json["dob"]),
       profilePic: json["profilePic"] as String,
       email: json["email"] as String,
       password: json["password"] as String,
       type: json["type"] as int,
       isActive: json["isActive"] as bool,
-      address: Address.fromJson(json["address"]) as Address,
+      address: Address.fromJson(json["address"]),
     );
   }
 }

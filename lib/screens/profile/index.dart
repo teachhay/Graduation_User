@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:userapp/models/user.dart';
+import 'package:userapp/models/sell_company.model.dart';
+import 'package:userapp/models/user.model.dart';
 import 'package:userapp/services/index.dart';
+import 'package:userapp/services/profile.service.dart';
+import 'package:userapp/services/sell_company.service.dart';
 import 'package:userapp/widgets/appbar.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -14,39 +17,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(0),
-          child: Column(
-            children: [
-              Container(
-                height: 250,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(14),
-                    bottomRight: Radius.circular(14),
-                  ),
-                  color: Colors.grey.shade300,
-                ),
-              ),
-              const SizedBox(height: 10),
-              SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    for (var i = 0; i < 5; i++)
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        height: 50,
-                        color: Colors.accents[i],
-                      )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+      appBar: const CustomAppBar(
+        title: Text("Profile Page"),
       ),
+      body: FutureBuilder<List<SellCompany>>(
+        future: fetchShops(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Center(child: Text('An error has occurred!'));
+          } else if (snapshot.hasData) {
+            return const Center(child: Text("ok"));
+            // return ProfileCard(user: snapshot.data!);
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+      // body: SingleChildScrollView(
+      //   scrollDirection: Axis.vertical,
+      //   child: Container(
+      //     margin: const EdgeInsets.all(8),
+      //     child: Column(
+      //       children: [
+      //         Container(
+      //           height: 200,
+      //           decoration: BoxDecoration(
+      //             color: Colors.white,
+      //             boxShadow: [
+      //               BoxShadow(
+      //                 blurRadius: 8,
+      //                 offset: const Offset(0, 3),
+      //                 color: Colors.black45.withOpacity(0.2),
+      //               ),
+      //             ],
+      //             borderRadius: BorderRadius.circular(8),
+      //           ),
+      //         ),
+      //         const SizedBox(height: 10),
+      //         const Text("Firstname"),
+      //         const Text("Lastname"),
+      //       ],
+      //     ),
+      //   ),
+      // ),
       // bottomNavigationBar: Container(
       //   padding: const EdgeInsets.all(15),
       //   height: 70,
@@ -71,6 +84,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
       //     child: const Text("Logout"),
       //   ),
       // ),
+    );
+  }
+}
+
+class ProfileCard extends StatelessWidget {
+  const ProfileCard({Key? key, required this.user}) : super(key: key);
+
+  final User user;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        children: [
+          Text(user.firstName.toString()),
+          Text(user.lastName.toString()),
+        ],
+      ),
     );
   }
 }

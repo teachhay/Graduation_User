@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:userapp/models/sell_company.model.dart';
+import "package:userapp/constants/api.dart";
 
 class ShopCard extends StatelessWidget {
-  const ShopCard({
-    Key? key,
-  }) : super(key: key);
+  const ShopCard({Key? key, required this.sellCompany}) : super(key: key);
+  final SellCompany sellCompany;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class ShopCard extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 0,
                 blurRadius: 6,
-                offset: Offset(0, 6),
+                offset: const Offset(0, 6),
               ),
             ],
           ),
@@ -36,6 +38,9 @@ class ShopCard extends StatelessWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
                     ),
+                    child: Center(
+                      child: Text(sellCompany.name),
+                    ),
                   ),
                 ),
               ),
@@ -50,10 +55,15 @@ class ShopCard extends StatelessWidget {
                     ),
                     height: double.infinity,
                     width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset("images/logo.png"),
-                    ),
+                    // child: Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   // child: Image.network("$fileUrl/${sellCompany.logo}"),
+                    //   child: CachedNetworkImage(
+                    //     imageUrl: "$fileUrl/${sellCompany.logo}",
+                    //     placeholder: (context, url) => const CircularProgressIndicator(),
+                    //     errorWidget: (context, url, error) => const Icon(Icons.error),
+                    //   ),
+                    // ), //FIXME check if image doesnt exist, show placeholder
                   ),
                 ),
               ),

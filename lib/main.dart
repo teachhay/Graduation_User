@@ -7,7 +7,9 @@ import 'package:userapp/screens/Home/index.dart';
 import 'package:userapp/screens/ShopDetail/index.dart';
 import 'package:userapp/screens/login/index.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:userapp/screens/order/index.dart';
 import 'package:userapp/screens/profile/index.dart';
+import 'package:userapp/screens/review/index.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,6 +37,10 @@ class MyApp extends StatelessWidget {
             return PageTransition(child: const HomeScreen(), type: PageTransitionType.fade);
           case '/profile':
             return PageTransition(child: const ProfileScreen(), type: PageTransitionType.fade);
+          case '/order':
+            return PageTransition(child: const OrderScreen(), type: PageTransitionType.fade);
+          case '/review':
+            return PageTransition(child: const ReviewScreen(), type: PageTransitionType.fade);
           case '/categorydetail':
             return PageTransition(child: const DetailByCategory(), type: PageTransitionType.rightToLeftWithFade);
           case '/shopdetail':

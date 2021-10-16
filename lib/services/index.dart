@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:userapp/constants/api.dart';
-import 'package:userapp/models/address.dart';
-import 'package:userapp/models/user.dart';
+import 'package:userapp/models/address.model.dart';
+import 'package:userapp/models/user.model.dart';
 import 'package:http/http.dart' as http;
 
 Future<User> login() async {
