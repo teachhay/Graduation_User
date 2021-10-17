@@ -13,12 +13,12 @@ class CategoryList extends StatelessWidget {
     return FutureBuilder<List<ShopCategory>>(
       future: fetchCategories(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return const SizedBox(height: 80, child: Center(child: CircularProgressIndicator()));
-        }
-
         if (snapshot.hasError) {
           return const SizedBox(height: 80, child: Center(child: Text("Error")));
+        }
+
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const SizedBox(height: 80, child: Center(child: CircularProgressIndicator()));
         }
 
         List<ShopCategory> categories = snapshot.data ?? [];
