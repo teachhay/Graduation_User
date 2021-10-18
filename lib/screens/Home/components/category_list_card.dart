@@ -4,9 +4,7 @@ import 'package:userapp/services/category.service.dart';
 import 'dart:math';
 
 class CategoryList extends StatelessWidget {
-  const CategoryList({
-    Key? key,
-  }) : super(key: key);
+  const CategoryList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +12,7 @@ class CategoryList extends StatelessWidget {
       future: fetchCategories(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const SizedBox(height: 80, child: Center(child: Text("Error")));
+          return SizedBox(height: 80, child: Center(child: Text(snapshot.error.toString())));
         }
 
         if (snapshot.connectionState != ConnectionState.done) {
@@ -38,7 +36,6 @@ class CategoryList extends StatelessWidget {
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({Key? key, required this.category}) : super(key: key);
-
   final ShopCategory category;
 
   @override

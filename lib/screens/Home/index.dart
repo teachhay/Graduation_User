@@ -135,28 +135,7 @@ class HomePage extends StatelessWidget {
           const CategoryList(),
           const SizedBox(height: 10),
           const SectionTitle(title: "Shops"),
-          FutureBuilder<List<SellCompany>>(
-            future: fetchShops(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState != ConnectionState.done) {
-                return const SizedBox(height: 150, child: Center(child: CircularProgressIndicator()));
-              }
-              if (snapshot.hasError) {
-                return const Center(child: Text('An error has occurred!'));
-              }
-
-              List<SellCompany> shops = snapshot.data ?? [];
-
-              return SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    for (var i in shops) ShopCard(sellCompany: i),
-                  ],
-                ),
-              );
-            },
-          ),
+          const ShopList(),
         ],
       ),
     );

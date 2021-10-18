@@ -1,36 +1,74 @@
-// import 'CustomException.dart';
+// ignore_for_file: avoid_print
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
-// import 'package:connectivity/connectivity.dart';
+
+import 'package:userapp/constants/api.dart';
 
 class ApiManager {
-  Future<dynamic> postAPICall(String url, Map param) async {
-    print("Calling POST API: $url");
-    print("Calling parameters: $param");
+  final Map<String, String> headers = {
+    "Accept": "application/json",
+    "Content-type": "application/json; charset=UTF-8",
+    "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTQ0MjlhNmI4MWQyYjIxYWMzMzhmZDMiLCJpYXQiOjE2MzI5MjM3NTd9._Plg48ccHQW0OQAtWlezgMKvQ3Lq4PIgXaU8xf7OCtM",
+  };
+  // Map<String, String> queryParameters = {"foo": "bar"};
 
-    var responseJson;
+  Future<dynamic> postApiCall(String url, Map param) async {
     try {
-      final response = await http.post(Uri.parse(url), body: param);
-      responseJson = _response(response);
-    } on SocketException {
-      throw FetchDataException('No Internet connection');
+      print("Calling POST API: $url");
+      print("Calling parameters: $param");
+
+      final response = await http.post(Uri.parse(url), body: param, headers: headers).timeout(const Duration(seconds: 5));
+
+      return _response(response);
+    } on SocketException catch (e) {
+      throw Exception(e.message);
+    } on TimeoutException catch (e) {
+      throw Exception(e.message);
     }
-    return responseJson;
   }
 
-  static Future<dynamic> getAPICall(String url) async {
-    print("Calling GET API: $url");
-
-    var responseJson;
+  Future<dynamic> getsApiCall(String url) async {
     try {
-      final response = await http.get(Uri.parse(url));
-      responseJson = _response(response);
-    } on SocketException {
-      throw FetchDataException('No Internet connection');
+      print("Calling GET API: $url");
+      final response = await http.get(Uri.parse(url), headers: headers);
+
+      return _response(response);
+    } on SocketException catch (e) {
+      throw Exception(e.message);
+    } on TimeoutException catch (e) {
+      throw Exception(e.message);
     }
-    return responseJson;
+  }
+
+  Future<dynamic> putApiCall(String url, body) async {
+    try {
+      print("Calling PUT API: $url");
+      print("Calling parameters: $body");
+
+      final response = await http.put(Uri.parse(url), body: body, headers: headers).timeout(const Duration(seconds: 5));
+
+      return _response(response);
+    } on SocketException catch (e) {
+      throw Exception(e.message);
+    } on TimeoutException catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  Future<dynamic> getApiCall(String url) async {
+    try {
+      print("Calling GET By Id API: $url");
+
+      final response = await http.put(Uri.parse(url), headers: headers).timeout(const Duration(seconds: 5));
+
+      return _response(response);
+    } on SocketException catch (e) {
+      throw Exception(e.message);
+    } on TimeoutException catch (e) {
+      throw Exception(e.message);
+    }
   }
 
   dynamic _response(http.Response response) {
@@ -40,7 +78,6 @@ class ApiManager {
         return responseJson;
       case 400:
         throw BadRequestException(response.body.toString());
-      case 401:
       case 403:
         throw UnauthorisedException(response.body.toString());
       case 500:
@@ -51,8 +88,8 @@ class ApiManager {
 }
 
 class CustomException implements Exception {
-  final message;
-  final prefix;
+  final String? message;
+  final String? prefix;
 
   CustomException([this.message, this.prefix]);
 

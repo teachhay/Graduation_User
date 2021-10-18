@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:userapp/models/category.model.dart';
+import 'package:userapp/models/sell_company.model.dart';
 
 class ShopInfoCard extends StatelessWidget {
-  const ShopInfoCard({
-    Key? key,
-  }) : super(key: key);
+  const ShopInfoCard({Key? key, required this.shop}) : super(key: key);
+  final SellCompany shop;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +29,9 @@ class ShopInfoCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Shop name",
-            style: TextStyle(
+          Text(
+            shop.name,
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -45,12 +45,18 @@ class ShopInfoCard extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      for (var index = 0; index < 10; index++)
+                      for (ShopCategory category in shop.categories)
                         Container(
                           margin: const EdgeInsets.only(right: 6),
                           child: Chip(
                             backgroundColor: Colors.red,
-                            label: Text("Cate $index"),
+                            label: Text(
+                              category.name,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                     ],

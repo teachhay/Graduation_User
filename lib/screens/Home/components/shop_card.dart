@@ -1,78 +1,119 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:userapp/models/sell_company.model.dart';
-import "package:userapp/constants/api.dart";
+import 'package:userapp/screens/shopdetail/index.dart';
+import 'package:userapp/services/sell_company.service.dart';
+
+class ShopList extends StatelessWidget {
+  const ShopList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<SellCompany>>(
+      future: fetchShops(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return SizedBox(height: 80, child: Center(child: Text(snapshot.error.toString())));
+        }
+
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const SizedBox(height: 80, child: Center(child: CircularProgressIndicator()));
+        }
+
+        List<SellCompany> shops = snapshot.data ?? [];
+
+        return SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              for (var i in shops) ShopCard(shop: i),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
 
 class ShopCard extends StatelessWidget {
-  const ShopCard({Key? key, required this.sellCompany}) : super(key: key);
-  final SellCompany sellCompany;
+  const ShopCard({Key? key, required this.shop}) : super(key: key);
+  final SellCompany shop;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6),
-            color: Colors.grey.shade400,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 0,
-                blurRadius: 6,
-                offset: const Offset(0, 6),
-              ),
-            ],
-          ),
-          width: double.infinity,
-          height: 180,
-          child: Row(
-            children: [
-              Expanded(
-                flex: 8,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Text(sellCompany.name),
-                    ),
+      child: Container(
+        height: 100,
+        margin: const EdgeInsets.only(top: 8, bottom: 8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 8,
+              color: Colors.black.withOpacity(0.1),
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Container(
+                width: 95,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(8),
+                  image: const DecorationImage(
+                    image: NetworkImage("https://source.unsplash.com/random"),
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
-              Expanded(
-                flex: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(6),
+            ),
+            Expanded(
+              flex: 3,
+              child: Container(
+                margin: const EdgeInsets.all(6),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      shop.name,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    height: double.infinity,
-                    width: double.infinity,
-                    // child: Padding(
-                    //   padding: const EdgeInsets.all(8.0),
-                    //   // child: Image.network("$fileUrl/${sellCompany.logo}"),
-                    //   child: CachedNetworkImage(
-                    //     imageUrl: "$fileUrl/${sellCompany.logo}",
-                    //     placeholder: (context, url) => const CircularProgressIndicator(),
-                    //     errorWidget: (context, url, error) => const Icon(Icons.error),
+                    Divider(thickness: 2, color: Colors.grey.shade200),
+                    // SingleChildScrollView(
+                    //   scrollDirection: Axis.horizontal,
+                    //   child: Row(
+                    //     children: [
+                    //       for (var i = 0; i < 2; i++)
+                    //         Chip(
+                    //           padding: EdgeInsets.zero,
+                    //           label: Text("Cate $i"),
+                    //           backgroundColor: Colors.amberAccent,
+                    //         ),
+                    //     ],
                     //   ),
-                    // ), //FIXME check if image doesnt exist, show placeholder
-                  ),
+                    // ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       onTap: () {
-        Navigator.pushNamed(context, "/shopdetail");
+        Navigator.push(context, PageTransition(child: ShopDetail(shopInfo: shop), type: PageTransitionType.rightToLeftWithFade));
       },
     );
   }
