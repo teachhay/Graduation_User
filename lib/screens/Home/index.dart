@@ -110,32 +110,37 @@ class HomePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
-                "Welcome back!",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              CircleAvatar(
-                backgroundImage: NetworkImage(
-                  "https://source.unsplash.com/random",
-                  // "$fileUrl/08355a38e1897627e62076628d036bc4.jpg",
-                ),
-              ),
-            ],
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: const [
+          //     Text(
+          //       "Welcome back!",
+          //       style: TextStyle(
+          //         fontSize: 22,
+          //         fontWeight: FontWeight.bold,
+          //       ),
+          //     ),
+          //     CircleAvatar(
+          //       backgroundImage: NetworkImage(
+          //         "https://source.unsplash.com/random",
+          //         // "$fileUrl/08355a38e1897627e62076628d036bc4.jpg",
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(height: 10),
+          // const Divider(thickness: 1, indent: 50, endIndent: 50),
+          // const SizedBox(height: 10),
+          // const SectionTitle(title: "Category"),
+          // const CategoryList(),
+          // const SizedBox(height: 10),
+          // const SectionTitle(title: "Shops"),
+          // const ShopList(),
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: Colors.amber,
           ),
-          const SizedBox(height: 10),
-          const Divider(thickness: 1, indent: 50, endIndent: 50),
-          const SizedBox(height: 10),
-          const SectionTitle(title: "Category"),
-          const CategoryList(),
-          const SizedBox(height: 10),
-          const SectionTitle(title: "Shops"),
-          const ShopList(),
         ],
       ),
     );

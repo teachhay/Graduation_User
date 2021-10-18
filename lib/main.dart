@@ -4,23 +4,14 @@ import 'package:userapp/screens/Cart/confirm_cart.dart';
 import 'package:userapp/screens/Cart/index.dart';
 import 'package:userapp/screens/DetailByCategory/index.dart';
 import 'package:userapp/screens/Home/index.dart';
-import 'package:userapp/screens/shopdetail/index.dart';
 import 'package:userapp/screens/login/index.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:userapp/screens/order/index.dart';
 import 'package:userapp/screens/profile/index.dart';
 import 'package:userapp/screens/review/index.dart';
-import 'package:userapp/screens/shopdetail/index.dart';
 
 void main() {
   runApp(const MyApp());
-}
-
-class ScreenArguments {
-  final String title;
-  final String message;
-
-  ScreenArguments(this.title, this.message);
 }
 
 class MyApp extends StatelessWidget {
@@ -63,27 +54,6 @@ class MyApp extends StatelessWidget {
             return null;
         }
       },
-    );
-  }
-}
-
-class PassArgumentsScreen extends StatelessWidget {
-  static const routeName = '/passArguments';
-
-  final String title;
-  final String message;
-
-  const PassArgumentsScreen({Key? key, required this.title, required this.message}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: Text(message),
-      ),
     );
   }
 }
