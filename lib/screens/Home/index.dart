@@ -1,15 +1,7 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:userapp/constants/api.dart';
-import 'package:intl/intl.dart';
-import 'package:userapp/models/sell_company.model.dart';
 import 'package:userapp/screens/Home/components/category_list_card.dart';
 import 'package:userapp/screens/Home/components/shop_card.dart';
-import 'package:userapp/screens/home/index.dart';
-import 'package:userapp/screens/profile/index.dart';
-import 'package:userapp/services/sell_company.service.dart';
 import 'package:userapp/widgets/appbar.dart';
-import 'package:userapp/widgets/botton_navigation_bar.dart';
 import 'package:userapp/widgets/section_title.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -46,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: const BoxDecoration(
                 color: Colors.transparent,
                 image: DecorationImage(
-                  image: NetworkImage("https://source.unsplash.com/random"),
+                  image: NetworkImage("https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"),
                   fit: BoxFit.cover,
                   alignment: Alignment.topCenter,
                 ),
@@ -56,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Text(
                   "User 1",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -110,37 +102,32 @@ class HomePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: const [
-          //     Text(
-          //       "Welcome back!",
-          //       style: TextStyle(
-          //         fontSize: 22,
-          //         fontWeight: FontWeight.bold,
-          //       ),
-          //     ),
-          //     CircleAvatar(
-          //       backgroundImage: NetworkImage(
-          //         "https://source.unsplash.com/random",
-          //         // "$fileUrl/08355a38e1897627e62076628d036bc4.jpg",
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          // const SizedBox(height: 10),
-          // const Divider(thickness: 1, indent: 50, endIndent: 50),
-          // const SizedBox(height: 10),
-          // const SectionTitle(title: "Category"),
-          // const CategoryList(),
-          // const SizedBox(height: 10),
-          // const SectionTitle(title: "Shops"),
-          // const ShopList(),
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: Colors.amber,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: const [
+              Text(
+                "Welcome back!",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              CircleAvatar(
+                backgroundImage: NetworkImage(
+                  "https://scontent.fpnh7-1.fna.fbcdn.net/v/t1.6435-9/203765174_3022888314627410_829940207297098355_n.jpg?_nc_cat=103&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeHtGeTsl_W0Hap9GgEnOMpxauurmcxsncxq66uZzGydzC7rSb2ob2mzR_-fGvsNYOkhv8spFCN_7Hs57oPUBzZf&_nc_ohc=NXECgTyZ-BEAX8gZZve&_nc_ht=scontent.fpnh7-1.fna&oh=fa02f3ddc961e88a95632ec3819619be&oe=619530D4",
+                  // "$fileUrl/08355a38e1897627e62076628d036bc4.jpg",
+                ),
+              ),
+            ],
           ),
+          const SizedBox(height: 10),
+          const Divider(thickness: 1, indent: 50, endIndent: 50),
+          const SizedBox(height: 10),
+          const SectionTitle(title: "Category"),
+          const CategoryList(),
+          const SizedBox(height: 10),
+          const SectionTitle(title: "Shops"),
+          const ShopList(),
         ],
       ),
     );

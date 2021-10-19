@@ -4,8 +4,6 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
 
-import 'package:userapp/constants/api.dart';
-
 class ApiManager {
   final Map<String, String> headers = {
     "Accept": "application/json",

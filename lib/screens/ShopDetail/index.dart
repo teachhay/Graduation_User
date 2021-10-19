@@ -14,14 +14,6 @@ class ShopDetail extends StatefulWidget {
 class _ShopDetailState extends State<ShopDetail> {
   @override
   Widget build(BuildContext context) {
-    // fetchServies("615735512e08227744425c01").then((value) {
-    //   for (ShopService item in value) {
-    //     print(item.name);
-    //   }
-    // });
-
-    print(widget.shopInfo.categories);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Shop Detail"),
@@ -31,26 +23,18 @@ class _ShopDetailState extends State<ShopDetail> {
         child: Column(
           children: [
             ShopInfoCard(shop: widget.shopInfo),
-            const SizedBox(height: 10),
+            const SizedBox(height: 0),
             Stack(
               alignment: Alignment.centerLeft,
               children: [
-                Divider(
-                  thickness: 2,
-                  indent: 12,
-                  endIndent: 12,
-                  color: Colors.grey.shade200,
-                ),
+                Divider(thickness: 2, indent: 12, endIndent: 12, color: Colors.grey.shade200),
                 Container(
                   margin: const EdgeInsets.only(left: 35),
                   padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
                   color: Colors.transparent,
-                  child: const Text(
+                  child: Text(
                     "Services",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, backgroundColor: Theme.of(context).scaffoldBackgroundColor),
                   ),
                 ),
               ],

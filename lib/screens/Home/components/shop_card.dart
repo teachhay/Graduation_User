@@ -66,7 +66,7 @@ class ShopCard extends StatelessWidget {
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(8),
                   image: const DecorationImage(
-                    image: NetworkImage("https://source.unsplash.com/random"),
+                    image: NetworkImage("https://via.placeholder.com/300"),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -81,7 +81,6 @@ class ShopCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -92,19 +91,16 @@ class ShopCard extends StatelessWidget {
                       ),
                     ),
                     Divider(thickness: 2, color: Colors.grey.shade200),
-                    // SingleChildScrollView(
-                    //   scrollDirection: Axis.horizontal,
-                    //   child: Row(
-                    //     children: [
-                    //       for (var i = 0; i < 2; i++)
-                    //         Chip(
-                    //           padding: EdgeInsets.zero,
-                    //           label: Text("Cate $i"),
-                    //           backgroundColor: Colors.amberAccent,
-                    //         ),
-                    //     ],
-                    //   ),
-                    // ),
+                    Flexible(
+                      child: Text(
+                        shop.remark,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey.shade600,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:userapp/models/category.model.dart';
 import 'package:userapp/services/category.service.dart';
-import 'dart:math';
 
 class CategoryList extends StatelessWidget {
   const CategoryList({Key? key}) : super(key: key);
@@ -59,7 +58,7 @@ class CategoryCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(6),
-              child: Image.network("https://source.unsplash.com/random", fit: BoxFit.cover, width: 100, height: 100),
+              child: Image.network("https://via.placeholder.com/150", fit: BoxFit.cover, width: 100, height: 100),
             ),
             Container(
               margin: const EdgeInsets.all(6),

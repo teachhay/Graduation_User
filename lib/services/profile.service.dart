@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:userapp/constants/api.dart';
 import 'package:userapp/models/user.model.dart';
 import 'package:http/http.dart' as http;
