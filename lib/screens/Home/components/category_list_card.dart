@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:userapp/constants/api.dart';
 import 'package:userapp/models/category.model.dart';
 import 'package:userapp/services/category.service.dart';
 
@@ -58,7 +59,7 @@ class CategoryCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(6),
-              child: Image.network("https://via.placeholder.com/150", fit: BoxFit.cover, width: 100, height: 100),
+              child: Image.network(category.image != "" ? "$fileUrl/${category.image}" : "https://via.placeholder.com/150", fit: BoxFit.cover, width: 100, height: 100),
             ),
             Container(
               margin: const EdgeInsets.all(6),
