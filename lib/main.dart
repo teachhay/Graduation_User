@@ -48,8 +48,8 @@ class MyApp extends StatelessWidget {
               return PageTransition(child: const OrderScreen(), type: PageTransitionType.fade);
             case '/review':
               return PageTransition(child: const ReviewScreen(), type: PageTransitionType.fade);
-            case '/categorydetail':
-              return PageTransition(child: const DetailByCategory(), type: PageTransitionType.rightToLeftWithFade);
+            // case '/categorydetail':
+            //   return PageTransition(child: const DetailByCategory(), type: PageTransitionType.rightToLeftWithFade);
             // case '/shopdetail':
             //   return PageTransition(child: const ShopDetail(), type: PageTransitionType.rightToLeftWithFade);
             case '/cart':

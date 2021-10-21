@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:userapp/constants/api.dart';
 import 'package:userapp/models/category.model.dart';
+import 'package:userapp/screens/detailbycategory/index.dart';
 import 'package:userapp/services/category.service.dart';
 
 class CategoryList extends StatelessWidget {
@@ -76,7 +78,7 @@ class CategoryCard extends StatelessWidget {
         ),
       ),
       onTap: () {
-        Navigator.pushNamed(context, '/categorydetail');
+        Navigator.push(context, PageTransition(child: const DetailByCategory(), type: PageTransitionType.rightToLeftWithFade));
       },
     );
   }
