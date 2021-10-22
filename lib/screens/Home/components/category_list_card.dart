@@ -78,7 +78,7 @@ class CategoryCard extends StatelessWidget {
         ),
       ),
       onTap: () {
-        Navigator.push(context, PageTransition(child: const DetailByCategory(), type: PageTransitionType.rightToLeftWithFade));
+        Navigator.push(context, PageTransition(child: DetailByCategory(category: category), type: PageTransitionType.rightToLeftWithFade));
       },
     );
   }

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:userapp/models/appointment.model.dart';
 import 'package:userapp/screens/Home/components/category_list_card.dart';
 import 'package:userapp/screens/Home/components/shop_card.dart';
 import 'package:userapp/widgets/appbar.dart';

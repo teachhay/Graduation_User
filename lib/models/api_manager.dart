@@ -4,13 +4,14 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
 
+import 'package:userapp/constants/api.dart';
+
 class ApiManager {
   final Map<String, String> headers = {
     "Accept": "application/json",
     "Content-type": "application/json; charset=UTF-8",
     "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTQ0MjlhNmI4MWQyYjIxYWMzMzhmZDMiLCJpYXQiOjE2MzI5MjM3NTd9._Plg48ccHQW0OQAtWlezgMKvQ3Lq4PIgXaU8xf7OCtM",
   };
-  // Map<String, String> queryParameters = {"foo": "bar"};
 
   Future<dynamic> postApiCall(String url, Map param) async {
     try {
@@ -27,10 +28,19 @@ class ApiManager {
     }
   }
 
-  Future<dynamic> getsApiCall(String url) async {
+  Future<dynamic> getsApiCall(String url, {dynamic params}) async {
     try {
       print("Calling GET API: $url");
-      final response = await http.get(Uri.parse(url), headers: headers);
+
+      final dynamic response;
+
+      if (params != null) {
+        String queryString = Uri(queryParameters: params).query;
+
+        response = await http.get(Uri.parse("$apiUrl/$url?" + queryString), headers: headers);
+      } else {
+        response = await http.get(Uri.parse("$apiUrl/$url"), headers: headers);
+      }
 
       return _response(response);
     } on SocketException catch (e) {

@@ -4,7 +4,6 @@ import 'package:userapp/models/appointment.model.dart';
 import 'package:userapp/screens/Cart/confirm.dart';
 import 'package:userapp/screens/Cart/confirm_cart.dart';
 import 'package:userapp/screens/Cart/index.dart';
-import 'package:userapp/screens/DetailByCategory/index.dart';
 import 'package:userapp/screens/Home/index.dart';
 import 'package:userapp/screens/login/index.dart';
 import 'package:page_transition/page_transition.dart';
