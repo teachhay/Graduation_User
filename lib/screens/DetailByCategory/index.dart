@@ -34,54 +34,99 @@ class _DetailByCategoryState extends State<DetailByCategory> {
             children: [
               Container(
                 height: 100,
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    Text(widget.category.name),
+                margin: const EdgeInsets.only(top: 8, bottom: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 8,
+                      color: Colors.black.withOpacity(0.1),
+                      offset: const Offset(0, 2),
+                    ),
                   ],
                 ),
-                decoration: BoxDecoration(
-                  color: Colors.purple,
-                  borderRadius: BorderRadius.circular(8),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: Container(
+                        margin: const EdgeInsets.all(6),
+                        padding: const EdgeInsets.fromLTRB(6, 6, 0, 6),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.category.name,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Divider(thickness: 2, color: Colors.grey.shade200),
+                            Flexible(
+                              child: Text(
+                                widget.category.remark,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey.shade600,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        width: 95,
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(8),
+                          image: const DecorationImage(
+                            image: NetworkImage("https://via.placeholder.com/300"),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 10),
-              for (var i = 0; i < 20; i++)
-                Container(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Colors.pinkAccent,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              // FutureBuilder<List<SellCompany>>(
-              //   future: fetchShops(query: query),
-              //   builder: (context, snapshot) {
-              //     if (snapshot.hasError) {
-              //       return Center(child: SizedBox(height: 100, child: Center(child: Text(snapshot.error.toString()))));
-              //     }
+              const Divider(thickness: 2),
+              FutureBuilder<List<SellCompany>>(
+                future: fetchShops(query: query),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(child: SizedBox(height: 100, child: Center(child: Text(snapshot.error.toString()))));
+                  }
 
-              //     if (snapshot.connectionState != ConnectionState.done) {
-              //       return const LoadingIndicator();
-              //     }
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return const LoadingIndicator();
+                  }
 
-              //     List<SellCompany> shops = snapshot.data ?? [];
+                  List<SellCompany> shops = snapshot.data ?? [];
 
-              //     if (shops.isNotEmpty) {
-              //       return SingleChildScrollView(
-              //         scrollDirection: Axis.vertical,
-              //         child: Column(
-              //           children: [
-              //             for (var i in shops) ShopCard(shop: i),
-              //           ],
-              //         ),
-              //       );
-              //     }
+                  if (shops.isNotEmpty) {
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Column(
+                        children: [
+                          for (var i in shops) ShopCard(shop: i),
+                        ],
+                      ),
+                    );
+                  }
 
-              //     return const EmptyDataIndicator(message: "No shops exist in this category");
-              //   },
-              // ),
+                  return const EmptyDataIndicator(message: "No shops exist in this category");
+                },
+              ),
             ],
           ),
         ),

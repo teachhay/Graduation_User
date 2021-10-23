@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:userapp/models/appointment.model.dart';
+import 'package:userapp/models/cart.model.dart';
 import 'package:userapp/screens/Cart/confirm.dart';
 import 'package:userapp/screens/Cart/confirm_cart.dart';
 import 'package:userapp/screens/Cart/index.dart';
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
-          value: Appointment(),
+          value: Cart(),
         ),
       ],
       child: MaterialApp(
