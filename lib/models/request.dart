@@ -8,17 +8,17 @@ import 'package:userapp/constants/api.dart';
 
 class ApiManager {
   final Map<String, String> headers = {
-    "Accept": "application/json",
-    "Content-type": "application/json; charset=UTF-8",
+    // "Accept": "application/json",
+    // "Content-type": "application/json; charset=UTF-8",
     "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTQ0MjlhNmI4MWQyYjIxYWMzMzhmZDMiLCJpYXQiOjE2MzI5MjM3NTd9._Plg48ccHQW0OQAtWlezgMKvQ3Lq4PIgXaU8xf7OCtM",
   };
 
   Future<dynamic> postApiCall(String url, Map param) async {
     try {
-      print("Calling POST API: $url");
+      print("Calling POST API: /$url");
       print("Calling parameters: $param");
 
-      final response = await http.post(Uri.parse(url), body: param, headers: headers).timeout(const Duration(seconds: 5));
+      final response = await http.post(Uri.parse("$apiUrl/$url"), body: param, headers: headers).timeout(const Duration(seconds: 5));
 
       return _response(response);
     } on SocketException catch (e) {
@@ -30,7 +30,7 @@ class ApiManager {
 
   Future<dynamic> getsApiCall(String url, {dynamic params}) async {
     try {
-      print("Calling GET API: $url");
+      print("Calling GET API: /$url");
 
       final dynamic response;
 
@@ -52,7 +52,7 @@ class ApiManager {
 
   Future<dynamic> putApiCall(String url, body) async {
     try {
-      print("Calling PUT API: $url");
+      print("Calling PUT API: /$url");
       print("Calling parameters: $body");
 
       final response = await http.put(Uri.parse(url), body: body, headers: headers).timeout(const Duration(seconds: 5));
@@ -67,7 +67,7 @@ class ApiManager {
 
   Future<dynamic> getApiCall(String url) async {
     try {
-      print("Calling GET By Id API: $url");
+      print("Calling GET By Id API: /$url");
 
       final response = await http.put(Uri.parse(url), headers: headers).timeout(const Duration(seconds: 5));
 
@@ -78,20 +78,47 @@ class ApiManager {
       throw Exception(e.message);
     }
   }
+}
 
-  dynamic _response(http.Response response) {
-    switch (response.statusCode) {
-      case 200:
-        var responseJson = json.decode(response.body.toString());
-        return responseJson;
-      case 400:
-        throw BadRequestException(response.body.toString());
-      case 403:
-        throw UnauthorisedException(response.body.toString());
-      case 500:
-      default:
-        throw FetchDataException('Error occured while Communication with Server with StatusCode: ${response.statusCode}');
+class AuthRequest {
+  final Map<String, String> headers = {
+    // "Accept": "application/json",
+    // "Content-type": "application/json; charset=UTF-8",
+    "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTQ0MjlhNmI4MWQyYjIxYWMzMzhmZDMiLCJpYXQiOjE2MzI5MjM3NTd9._Plg48ccHQW0OQAtWlezgMKvQ3Lq4PIgXaU8xf7OCtM",
+  };
+
+  Future<dynamic> postApiCall(String url, Map param) async {
+    try {
+      print("Calling POST AUTH API: /$url");
+      print("Calling parameters: $param");
+
+      final response = await http.post(Uri.parse("$authUrl/$url"), body: param, headers: headers).timeout(const Duration(seconds: 5));
+
+      return _response(response);
+    } on SocketException catch (e) {
+      throw Exception(e.message);
+    } on TimeoutException catch (e) {
+      throw Exception(e.message);
     }
+  }
+}
+
+dynamic _response(http.Response response) {
+  var responseJson = json.decode(response.body.toString());
+
+  switch (response.statusCode) {
+    case 200:
+      return responseJson;
+    case 400:
+      throw BadRequestException(response.body.toString());
+    case 401:
+      throw responseJson;
+    case 403:
+      throw UnauthorisedException(response.body.toString());
+    case 500:
+    default:
+      throw responseJson;
+    // throw FetchDataException('Error occured while Communication with Server with StatusCode: ${response.statusCode}');
   }
 }
 

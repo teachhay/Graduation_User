@@ -1,7 +1,7 @@
 import 'package:userapp/models/address.model.dart';
 
 class User {
-  final int id;
+  final String id;
   final String? firstName;
   final String? lastName;
   final String? phoneNumber;
@@ -29,7 +29,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json["id"] as int,
+      id: json["id"] as String,
       firstName: json["firstName"] as String,
       lastName: json["lastName"] as String,
       phoneNumber: json["phoneNumber"] as String,

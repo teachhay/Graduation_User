@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:userapp/constants/api.dart';
-import 'package:userapp/models/api_manager.dart';
+import 'package:userapp/models/request.dart';
 import 'package:userapp/models/sell_company.model.dart';
 
 Future<List<SellCompany>> fetchShops({dynamic query}) async {
@@ -8,9 +8,9 @@ Future<List<SellCompany>> fetchShops({dynamic query}) async {
   final dynamic response;
 
   if (query != null) {
-    response = await api.getsApiCall("/shop", params: query);
+    response = await api.getsApiCall("shop", params: query);
   } else {
-    response = await api.getsApiCall("/shop");
+    response = await api.getsApiCall("shop");
   }
 
   return compute(parseShops, response["results"]);

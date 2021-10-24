@@ -1,4 +1,8 @@
+// ignore_for_file: avoid_print
 import 'package:flutter/material.dart';
+import 'package:userapp/services/login.service.dart';
+import 'package:userapp/widgets/appbar.dart';
+import 'package:userapp/widgets/section_title.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -16,83 +20,71 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Appbar"),
-      ),
+      appBar: const CustomAppBar(title: Text("Login")),
       body: Padding(
         padding: const EdgeInsets.only(left: 14, right: 14),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "Let's get started",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+            const SectionTitle(title: "Let's get started"),
+            const SizedBox(height: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Email",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.email),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Email",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
+            const SizedBox(height: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Password",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
                   ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.email),
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Password",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: passwordController,
-                    obscureText: passwordVisible,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.password),
-                      border: const OutlineInputBorder(),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          passwordVisible ? Icons.visibility_off : Icons.visibility,
-                          color: Theme.of(context).primaryColorDark,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            passwordVisible = !passwordVisible;
-                          });
-                        },
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: passwordController,
+                  obscureText: !passwordVisible,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.password),
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        !passwordVisible ? Icons.visibility_off : Icons.visibility,
+                        color: Theme.of(context).primaryColorDark,
                       ),
+                      onPressed: () {
+                        setState(() {
+                          passwordVisible = !passwordVisible;
+                        });
+                      },
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end, // for 2 children, change to spaceBetween
               children: [
                 // TextButton(onPressed: () {}, child: const Text("Don't have an account?")),
                 TextButton(onPressed: () {}, child: const Text("Forgot password?")),
@@ -101,39 +93,49 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                  onPressed: () {
-                    // ignore: avoid_print
-                    print(emailController.text);
-                    // ignore: avoid_print
-                    print(passwordController.text);
+                onPressed: () async {
+                  dynamic result = await login(emailController.text, passwordController.text);
 
-                    Future.delayed(const Duration(seconds: 2), () => Navigator.pushReplacementNamed(context, '/home'));
-                  },
-                  child: const Text("Login")),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 14, bottom: 14),
-              child: Row(
-                children: const <Widget>[
-                  Expanded(
-                    child: Divider(
-                      thickness: 2,
-                      endIndent: 20,
+                  if (result.meta == 200) {
+                    print(result.token);
+                    // Future.delayed(const Duration(seconds: 2), () => Navigator.pushReplacementNamed(context, '/home'));
+                    return;
+                  }
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      duration: Duration(seconds: 5),
+                      content: Text('Yay! A SnackBar!'),
                     ),
-                  ),
-                  Text("OR"),
-                  Expanded(
-                    child: Divider(
-                      thickness: 2,
-                      indent: 20,
-                    ),
-                  ),
-                ],
+                  );
+                },
+                child: const Text("Login"),
               ),
             ),
+            const SizedBox(height: 8),
+            Row(
+              children: const <Widget>[
+                Expanded(
+                  child: Divider(
+                    thickness: 2,
+                    endIndent: 20,
+                  ),
+                ),
+                Text("OR"),
+                Expanded(
+                  child: Divider(
+                    thickness: 2,
+                    indent: 20,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
             SizedBox(
               width: double.infinity,
               child: OutlinedButton(
+                // ignore: todo
+                //TODO register page
                 onPressed: () {},
                 child: const Text("Register"),
               ),

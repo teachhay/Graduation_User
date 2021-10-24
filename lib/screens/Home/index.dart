@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// ignore: unused_import
+import 'package:userapp/constants/config.dart';
 import 'package:userapp/screens/Home/components/category_list_card.dart';
 import 'package:userapp/screens/Home/components/shop_card.dart';
 import 'package:userapp/widgets/appbar.dart';
@@ -20,6 +22,12 @@ class _HomeScreenState extends State<HomeScreen> {
   //   });
   // }
 
+  // _incrementCounter() async {
+  //   int counter = (prefs.getInt('counter') ?? 0) + 1;
+  //   print('Pressed $counter times.');
+  //   await prefs.setInt('counter', counter);
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
       // bottomNavigationBar: CustomNavigationBar(
       //   selectedIndex: currentIndex,
       //   onTap: _onTapButton,
+      // ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: _incrementCounter,
+      //   child: const Icon(Icons.add),
       // ),
     );
   }
