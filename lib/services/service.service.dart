@@ -1,11 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:userapp/constants/api.dart';
 import 'package:userapp/models/api_manager.dart';
 import 'package:userapp/models/service.model.dart';
 
 Future<List<ShopService>> fetchServies(String shopId) async {
   final api = ApiManager();
-  final response = await api.getsApiCall("$apiUrl/service?sellCompany=$shopId");
+  final response = await api.getsApiCall("service?sellCompany=$shopId");
 
   return compute(parseServices, response["results"]);
 }

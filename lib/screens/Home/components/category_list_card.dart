@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:userapp/constants/api.dart';
 import 'package:userapp/models/category.model.dart';
+import 'package:userapp/screens/detailbycategory/index.dart';
 import 'package:userapp/services/category.service.dart';
 
 class CategoryList extends StatelessWidget {
@@ -58,7 +61,7 @@ class CategoryCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(6),
-              child: Image.network("https://via.placeholder.com/150", fit: BoxFit.cover, width: 100, height: 100),
+              child: Image.network(category.image != "" ? "$fileUrl/${category.image}" : "https://via.placeholder.com/150", fit: BoxFit.cover, width: 100, height: 100),
             ),
             Container(
               margin: const EdgeInsets.all(6),
@@ -75,7 +78,7 @@ class CategoryCard extends StatelessWidget {
         ),
       ),
       onTap: () {
-        Navigator.pushNamed(context, '/categorydetail');
+        Navigator.push(context, PageTransition(child: DetailByCategory(category: category), type: PageTransitionType.rightToLeftWithFade));
       },
     );
   }

@@ -5,6 +5,7 @@ class ShopCategory {
   final DateTime createdAt;
   final DateTime updatedAt;
   final String remark;
+  final String image;
 
   const ShopCategory({
     required this.id,
@@ -13,6 +14,7 @@ class ShopCategory {
     required this.createdAt,
     required this.updatedAt,
     required this.remark,
+    required this.image,
   });
 
   factory ShopCategory.fromJson(Map<dynamic, dynamic> json) {
@@ -23,6 +25,7 @@ class ShopCategory {
       createdAt: DateTime.parse(json["createdAt"]),
       updatedAt: DateTime.parse(json["updatedAt"]),
       remark: json["remark"] as String,
+      image: json["image"] as String,
     );
   }
 }
