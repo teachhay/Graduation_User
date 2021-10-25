@@ -18,7 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: const CustomAppBar(
         title: Text("Profile Page"),
       ),
-      body: FutureBuilder<List<SellCompany>>(
+      body: FutureBuilder<dynamic>(
         future: fetchShops(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {

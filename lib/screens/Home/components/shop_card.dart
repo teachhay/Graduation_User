@@ -9,7 +9,7 @@ class ShopList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<SellCompany>>(
+    return FutureBuilder<dynamic>(
       future: fetchShops(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -20,16 +20,18 @@ class ShopList extends StatelessWidget {
           return const SizedBox(height: 80, child: Center(child: CircularProgressIndicator()));
         }
 
-        List<SellCompany> shops = snapshot.data ?? [];
+        //FIXME error response thrown
+        // List<SellCompany> shops = snapshot.data ?? [];
 
-        return SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              for (var i in shops) ShopCard(shop: i),
-            ],
-          ),
-        );
+        // return SingleChildScrollView(
+        //   scrollDirection: Axis.vertical,
+        //   child: Column(
+        //     children: [
+        //       for (var i in shops) ShopCard(shop: i),
+        //     ],
+        //   ),
+        // );
+        return const Text("shop");
       },
     );
   }

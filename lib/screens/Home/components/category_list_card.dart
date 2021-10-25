@@ -4,13 +4,14 @@ import 'package:userapp/constants/api.dart';
 import 'package:userapp/models/category.model.dart';
 import 'package:userapp/screens/detailbycategory/index.dart';
 import 'package:userapp/services/category.service.dart';
+import 'package:userapp/widgets/section_title.dart';
 
 class CategoryList extends StatelessWidget {
   const CategoryList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<ShopCategory>>(
+    return FutureBuilder<dynamic>(
       future: fetchCategories(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -21,14 +22,30 @@ class CategoryList extends StatelessWidget {
           return const SizedBox(height: 80, child: Center(child: CircularProgressIndicator()));
         }
 
-        List<ShopCategory> categories = snapshot.data ?? [];
+        final dynamic response = snapshot.data;
 
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              for (var i in categories) CategoryCard(category: i),
-            ],
+        if (response.meta == 200) {
+          List<ShopCategory> categories = response.results ?? [];
+
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                for (var i in categories) CategoryCard(category: i),
+              ],
+            ),
+          );
+        }
+
+        return Container(
+          height: 80,
+          alignment: Alignment.center,
+          child: Text(
+            "Error occurred - ${response.message}",
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         );
       },

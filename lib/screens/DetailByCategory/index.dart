@@ -100,7 +100,7 @@ class _DetailByCategoryState extends State<DetailByCategory> {
                 ),
               ),
               const Divider(thickness: 2),
-              FutureBuilder<List<SellCompany>>(
+              FutureBuilder<dynamic>(
                 future: fetchShops(query: query),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {

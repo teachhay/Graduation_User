@@ -31,13 +31,16 @@ class MyApp extends StatelessWidget {
 
   Future<bool> initApp() async {
     prefs = await SharedPreferences.getInstance();
-    token = prefs.getString("token") ?? "";
+    token = prefs.getString(tokenKey) ?? "";
+
+    print("Token - $token");
 
     // ignore: todo
     //TODO Fetch userinfo based on token
     if (userinfo == null) {}
 
     return true;
+    // return Future.delayed(const Duration(seconds: 5), () => true); //real server simulation
   }
 
   @override
@@ -50,51 +53,62 @@ class MyApp extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
-          return MultiProvider(
-            providers: [
-              Provider<Cart>(create: (_) => Cart()),
-            ],
-            child: MaterialApp(
-              title: 'Flutter Demo',
-              theme: ThemeData(
-                primarySwatch: Colors.purple,
-                primaryColor: Colors.deepPurple,
-                // scaffoldBackgroundColor: Colors.white,
-              ),
-              debugShowCheckedModeBanner: false,
-              initialRoute: token != "" ? "/home" : "/login",
-              onGenerateRoute: (settings) {
-                switch (settings.name) {
-                  case '/login':
-                    return PageTransition(child: const LoginScreen(), type: PageTransitionType.rightToLeftWithFade);
-                  case '/home':
-                    return PageTransition(child: const HomeScreen(), type: PageTransitionType.fade);
-                  case '/profile':
-                    return PageTransition(child: const ProfileScreen(), type: PageTransitionType.fade);
-                  case '/order':
-                    return PageTransition(child: const OrderScreen(), type: PageTransitionType.fade);
-                  case '/review':
-                    return PageTransition(child: const ReviewScreen(), type: PageTransitionType.fade);
-                  // case '/categorydetail':
-                  //   return PageTransition(child: const DetailByCategory(), type: PageTransitionType.rightToLeftWithFade);
-                  // case '/shopdetail':
-                  //   return PageTransition(child: const ShopDetail(), type: PageTransitionType.rightToLeftWithFade);
-                  case '/cart':
-                    return PageTransition(child: const CartScreen(), type: PageTransitionType.rightToLeftWithFade);
-                  case '/confirmcart':
-                    return PageTransition(child: const ConfirmCartScreen(), type: PageTransitionType.rightToLeftWithFade);
-                  case '/confirm':
-                    return PageTransition(child: const ConfirmScreen(), type: PageTransitionType.rightToLeftWithFade);
-                  default:
-                    return null;
-                }
-              },
-            ),
-          );
+          return const MainMaterialApp();
         }
 
         return const CustomMaterialApp(child: LoadingIndicator());
       },
+    );
+  }
+}
+
+class MainMaterialApp extends StatelessWidget {
+  const MainMaterialApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        Provider<Cart>(create: (_) => Cart()),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        //ignore: todo
+        //TODO extract ThemeData to external file
+        theme: ThemeData(
+          primarySwatch: Colors.purple,
+          primaryColor: Colors.deepPurple,
+          // scaffoldBackgroundColor: Colors.white,
+        ),
+        debugShowCheckedModeBanner: false,
+        initialRoute: token != "" ? "/home" : "/login",
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case '/login':
+              return PageTransition(child: const LoginScreen(), type: PageTransitionType.fade);
+            case '/home':
+              return PageTransition(child: const HomeScreen(), type: PageTransitionType.fade);
+            case '/profile':
+              return PageTransition(child: const ProfileScreen(), type: PageTransitionType.fade);
+            case '/order':
+              return PageTransition(child: const OrderScreen(), type: PageTransitionType.fade);
+            case '/review':
+              return PageTransition(child: const ReviewScreen(), type: PageTransitionType.fade);
+            // case '/categorydetail':
+            //   return PageTransition(child: const DetailByCategory(), type: PageTransitionType.rightToLeftWithFade);
+            // case '/shopdetail':
+            //   return PageTransition(child: const ShopDetail(), type: PageTransitionType.rightToLeftWithFade);
+            case '/cart':
+              return PageTransition(child: const CartScreen(), type: PageTransitionType.rightToLeftWithFade);
+            case '/confirmcart':
+              return PageTransition(child: const ConfirmCartScreen(), type: PageTransitionType.rightToLeftWithFade);
+            case '/confirm':
+              return PageTransition(child: const ConfirmScreen(), type: PageTransitionType.rightToLeftWithFade);
+            default:
+              return null;
+          }
+        },
+      ),
     );
   }
 }

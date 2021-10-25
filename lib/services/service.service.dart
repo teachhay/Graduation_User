@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:userapp/models/request.dart';
+import 'package:userapp/models/request.model.dart';
 import 'package:userapp/models/service.model.dart';
 
 Future<List<ShopService>> fetchServies(String shopId) async {

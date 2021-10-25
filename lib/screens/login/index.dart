@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 import 'package:flutter/material.dart';
+import 'package:userapp/constants/config.dart';
 import 'package:userapp/services/login.service.dart';
 import 'package:userapp/widgets/appbar.dart';
 import 'package:userapp/widgets/section_title.dart';
@@ -14,8 +15,27 @@ class LoginScreen extends StatefulWidget {
 //FIXME widget overflow
 class _LoginScreenState extends State<LoginScreen> {
   bool passwordVisible = false;
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final bool isLoading = false;
+
+  handleLogin() async {
+    dynamic response = await login(emailController.text, passwordController.text);
+
+    if (response.meta == 200) {
+      prefs.setString(tokenKey, response.token);
+      token = response.token;
+      Navigator.pushReplacementNamed(context, '/home');
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 5),
+        content: Text(response.message),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,22 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () async {
-                  dynamic result = await login(emailController.text, passwordController.text);
-
-                  if (result.meta == 200) {
-                    print(result.token);
-                    // Future.delayed(const Duration(seconds: 2), () => Navigator.pushReplacementNamed(context, '/home'));
-                    return;
-                  }
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      duration: Duration(seconds: 5),
-                      content: Text('Yay! A SnackBar!'),
-                    ),
-                  );
-                },
+                onPressed: isLoading ? null : handleLogin,
                 child: const Text("Login"),
               ),
             ),

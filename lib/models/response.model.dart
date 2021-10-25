@@ -20,6 +20,35 @@ class LoginResponse {
   }
 }
 
+class GetsResponse {
+  final int meta;
+  dynamic? results;
+  final int page;
+  final int limit;
+  final int totalPages;
+  final int totalResults;
+
+  GetsResponse({
+    required this.meta,
+    required this.results,
+    required this.page,
+    required this.limit,
+    required this.totalPages,
+    required this.totalResults,
+  });
+
+  factory GetsResponse.fromJson(Map<String, dynamic> json) {
+    return GetsResponse(
+      meta: json["meta"] as int,
+      results: json["results"] as dynamic,
+      page: json["page"] as int,
+      limit: json["limit"] as int,
+      totalPages: json["totalPages"] as int,
+      totalResults: json["totalResults"] as int,
+    );
+  }
+}
+
 class ErrorResponse {
   final int meta;
   final String message;

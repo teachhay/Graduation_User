@@ -106,6 +106,15 @@ class CustomDrawer extends StatelessWidget {
               Navigator.pushNamed(context, "/review");
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text("Logout"),
+            onTap: () {
+              Navigator.pop(context);
+              prefs.clear();
+              Navigator.pushReplacementNamed(context, "/login");
+            },
+          ),
         ],
       ),
     );

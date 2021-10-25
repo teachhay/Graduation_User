@@ -5,12 +5,13 @@ import 'dart:convert';
 import 'dart:async';
 
 import 'package:userapp/constants/api.dart';
+import 'package:userapp/constants/config.dart';
 
 class ApiManager {
   final Map<String, String> headers = {
     // "Accept": "application/json",
     // "Content-type": "application/json; charset=UTF-8",
-    "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTQ0MjlhNmI4MWQyYjIxYWMzMzhmZDMiLCJpYXQiOjE2MzI5MjM3NTd9._Plg48ccHQW0OQAtWlezgMKvQ3Lq4PIgXaU8xf7OCtM",
+    "Authorization": token ?? "",
   };
 
   Future<dynamic> postApiCall(String url, Map param) async {
@@ -84,7 +85,7 @@ class AuthRequest {
   final Map<String, String> headers = {
     // "Accept": "application/json",
     // "Content-type": "application/json; charset=UTF-8",
-    "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MTQ0MjlhNmI4MWQyYjIxYWMzMzhmZDMiLCJpYXQiOjE2MzI5MjM3NTd9._Plg48ccHQW0OQAtWlezgMKvQ3Lq4PIgXaU8xf7OCtM",
+    "Authorization": token ?? "",
   };
 
   Future<dynamic> postApiCall(String url, Map param) async {
