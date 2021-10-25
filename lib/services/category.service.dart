@@ -13,7 +13,6 @@ Future<dynamic> fetchCategories() async {
 
     return response;
   } catch (e) {
-    print("Fetch category error - $e");
     return ErrorResponse.fromJson(jsonDecode(jsonEncode(e)));
   }
 }

@@ -9,15 +9,17 @@ import 'package:userapp/models/sell_company.model.dart';
 Future<dynamic> fetchShops({dynamic query}) async {
   try {
     final api = ApiManager();
-    final dynamic response;
+    GetsResponse response;
 
     if (query != null) {
-      response = await api.getsApiCall("shop", params: query);
+      response = GetsResponse.fromJson(await api.getsApiCall("shop", params: query));
     } else {
-      response = await api.getsApiCall("shop");
+      response = GetsResponse.fromJson(await api.getsApiCall("shop"));
     }
 
-    return compute(parseShops, response["results"]);
+    response.results = await compute(parseShops, response.results);
+
+    return response;
   } catch (e) {
     return ErrorResponse.fromJson(jsonDecode(jsonEncode(e)));
   }

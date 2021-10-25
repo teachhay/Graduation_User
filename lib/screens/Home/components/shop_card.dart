@@ -20,18 +20,32 @@ class ShopList extends StatelessWidget {
           return const SizedBox(height: 80, child: Center(child: CircularProgressIndicator()));
         }
 
-        //FIXME error response thrown
-        // List<SellCompany> shops = snapshot.data ?? [];
+        final dynamic response = snapshot.data;
 
-        // return SingleChildScrollView(
-        //   scrollDirection: Axis.vertical,
-        //   child: Column(
-        //     children: [
-        //       for (var i in shops) ShopCard(shop: i),
-        //     ],
-        //   ),
-        // );
-        return const Text("shop");
+        if (response.meta == 200) {
+          List<SellCompany> shops = response.results ?? [];
+
+          return SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                for (var i in shops) ShopCard(shop: i),
+              ],
+            ),
+          );
+        }
+
+        return Container(
+          height: 100,
+          alignment: Alignment.center,
+          child: Text(
+            "Error occurred - ${response.message}",
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        );
       },
     );
   }

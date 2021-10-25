@@ -111,20 +111,36 @@ class _DetailByCategoryState extends State<DetailByCategory> {
                     return const LoadingIndicator();
                   }
 
-                  List<SellCompany> shops = snapshot.data ?? [];
+                  final dynamic response = snapshot.data;
 
-                  if (shops.isNotEmpty) {
-                    return SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        children: [
-                          for (var i in shops) ShopCard(shop: i),
-                        ],
-                      ),
-                    );
+                  if (response.meta == 200) {
+                    List<SellCompany> shops = response.results ?? [];
+
+                    if (shops.isNotEmpty) {
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          children: [
+                            for (var i in shops) ShopCard(shop: i),
+                          ],
+                        ),
+                      );
+                    }
+
+                    return const EmptyDataIndicator(message: "No shops exist in this category");
                   }
 
-                  return const EmptyDataIndicator(message: "No shops exist in this category");
+                  return Container(
+                    height: 100,
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Error occurred - ${response.message}",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  );
                 },
               ),
             ],
