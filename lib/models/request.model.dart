@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_print
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
@@ -42,6 +43,8 @@ class ApiManager {
       } else {
         response = await http.get(Uri.parse("$apiUrl/$url"), headers: headers);
       }
+
+      print(response.statusCode);
 
       return _response(response);
     } on SocketException catch (e) {
@@ -113,6 +116,10 @@ dynamic _response(http.Response response) {
     case 400:
       throw BadRequestException(response.body.toString());
     case 401:
+      if (responseJson["meta"] == 4001) {
+        navigatorKey!.currentState!.pushReplacementNamed('/login');
+      }
+
       throw responseJson;
     case 403:
       throw UnauthorisedException(response.body.toString());

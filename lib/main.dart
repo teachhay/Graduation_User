@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
   Future<bool> initApp() async {
     prefs = await SharedPreferences.getInstance();
     token = prefs.getString(tokenKey) ?? "";
+    navigatorKey = GlobalKey<NavigatorState>();
 
     print("Token - $token");
 
@@ -82,6 +83,7 @@ class MainMaterialApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         initialRoute: token != "" ? "/home" : "/login",
+        navigatorKey: navigatorKey,
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/login':
