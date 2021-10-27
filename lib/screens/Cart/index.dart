@@ -10,15 +10,16 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   DateTime pickedDate = DateTime.now();
+  TimeOfDay time = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
     _pickDate() async {
       DateTime? date = await showDatePicker(
         context: context,
-        initialDate: DateTime(DateTime.now().year - 5),
-        firstDate: DateTime(DateTime.now().year - 5),
-        lastDate: DateTime(DateTime.now().year + 5),
+        initialDate: DateTime.now(),
+        firstDate: DateTime.parse("1970-01-01"),
+        lastDate: DateTime(DateTime.now().year + 50),
       );
 
       if (date != null) {
@@ -26,6 +27,23 @@ class _CartScreenState extends State<CartScreen> {
           pickedDate = date;
         });
       }
+
+      print(time);
+    }
+
+    _pickTime() async {
+      TimeOfDay? tempTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (tempTime != null) {
+        setState(() {
+          time = tempTime;
+        });
+      }
+
+      print(time.period);
     }
 
     return Scaffold(
@@ -121,18 +139,15 @@ class _CartScreenState extends State<CartScreen> {
                 ],
               ),
               const SizedBox(height: 10),
-              ListTile(
-                title: Chip(label: Text("${pickedDate.day} - ${pickedDate.month} - ${pickedDate.year}")),
-                trailing: const Icon(Icons.keyboard_arrow_down),
-                onTap: _pickDate,
-              ),
               const SizedBox(height: 10),
               for (var i = 0; i < 5; i++)
                 Container(
                   margin: const EdgeInsets.only(top: 8, bottom: 8),
+                  padding: const EdgeInsets.all(16),
                   height: 150,
+                  width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.greenAccent,
+                    color: Colors.grey.shade400,
                     borderRadius: BorderRadius.circular(8),
                     boxShadow: [
                       BoxShadow(
@@ -140,6 +155,54 @@ class _CartScreenState extends State<CartScreen> {
                         blurRadius: 6,
                         color: Colors.black.withOpacity(0.2),
                       ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("Service 1"),
+                      // TextButton(
+                      //   child: Text(
+                      //     "${pickedDate.day} - ${pickedDate.month} - ${pickedDate.year}",
+                      //     style: const TextStyle(
+                      //       fontSize: 14,
+                      //     ),
+                      //   ),
+                      //   onPressed: _pickDate,
+                      //   style: TextButton.styleFrom(
+                      //     primary: Colors.teal,
+                      //   ),
+                      // ),
+                      Row(
+                        children: [
+                          TextButton(
+                            child: Text(
+                              "${pickedDate.day} - ${pickedDate.month} - ${pickedDate.year}",
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: _pickDate,
+                            style: TextButton.styleFrom(
+                              primary: Colors.black,
+                            ),
+                          ),
+                          TextButton(
+                            child: Text(
+                              "${time.hour} - ${time.minute} ${time.period.index == 2 ? 'AM' : 'PM'}",
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: _pickTime,
+                            style: TextButton.styleFrom(
+                              primary: Colors.black,
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
