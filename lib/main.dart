@@ -70,10 +70,11 @@ class MainMaterialApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<Cart>(create: (_) => Cart()),
+        ChangeNotifierProvider(create: (context) => Cart()),
+        // Provider<Cart>(create: (_) => Cart()),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'User App',
         //ignore: todo
         //TODO extract ThemeData to external file
         theme: ThemeData(
@@ -82,7 +83,7 @@ class MainMaterialApp extends StatelessWidget {
           // scaffoldBackgroundColor: Colors.white,
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: token != "" ? "/cart" : "/login",
+        initialRoute: token != "" ? "/home" : "/login",
         navigatorKey: navigatorKey,
         onGenerateRoute: (settings) {
           switch (settings.name) {

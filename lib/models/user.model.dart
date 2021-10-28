@@ -27,6 +27,22 @@ class User {
     required this.address,
   });
 
+  factory User.init() {
+    return User(
+      id: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      dob: DateTime.now(),
+      profilePic: "",
+      email: "",
+      password: "",
+      type: 0,
+      isActive: true,
+      address: Address.init(),
+    );
+  }
+
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json["id"] as String,

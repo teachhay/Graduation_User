@@ -1,4 +1,4 @@
-import 'package:userapp/models/sell_company.model.dart';
+import 'sell_company.model.dart';
 
 class ShopService {
   final String id;
@@ -21,16 +21,31 @@ class ShopService {
     required this.isActive,
   });
 
-  factory ShopService.fromJson(Map<String, dynamic> json) => ShopService(
-        id: json["id"] as String,
-        name: json["name"] as String,
-        price: json["price"] as dynamic,
-        remark: json["remark"] as String,
-        sellCompany: SellCompany.fromJson(json["sellCompany"]),
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        isActive: json["isActive"] as bool,
-      );
+  factory ShopService.init() {
+    return ShopService(
+      id: "",
+      name: "",
+      price: "",
+      remark: "",
+      sellCompany: SellCompany.init(),
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      isActive: true,
+    );
+  }
+
+  factory ShopService.fromJson(Map<String, dynamic> json) {
+    return ShopService(
+      id: json["id"] as String,
+      name: json["name"] as String,
+      price: json["price"] as dynamic,
+      remark: json["remark"] as String,
+      sellCompany: SellCompany.fromJson(json["sellCompany"]),
+      createdAt: DateTime.parse(json["createdAt"]),
+      updatedAt: DateTime.parse(json["updatedAt"]),
+      isActive: json["isActive"] as bool,
+    );
+  }
 }
 
 List<ShopService> parseServices(dynamic body) {

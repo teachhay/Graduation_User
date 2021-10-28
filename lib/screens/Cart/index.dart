@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:userapp/models/appointment.model.dart';
+import 'package:userapp/models/cart.model.dart';
+import 'package:userapp/services/appointment.service.dart';
 import 'package:userapp/widgets/appbar.dart';
 
 class CartScreen extends StatefulWidget {
@@ -9,43 +13,8 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  DateTime pickedDate = DateTime.now();
-  TimeOfDay time = TimeOfDay.now();
-
   @override
   Widget build(BuildContext context) {
-    _pickDate() async {
-      DateTime? date = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.parse("1970-01-01"),
-        lastDate: DateTime(DateTime.now().year + 50),
-      );
-
-      if (date != null) {
-        setState(() {
-          pickedDate = date;
-        });
-      }
-
-      print(time);
-    }
-
-    _pickTime() async {
-      TimeOfDay? tempTime = await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay.now(),
-      );
-
-      if (tempTime != null) {
-        setState(() {
-          time = tempTime;
-        });
-      }
-
-      print(time.period);
-    }
-
     return Scaffold(
       appBar: const CustomAppBar(
         title: Text("Cart Page"),
@@ -139,73 +108,7 @@ class _CartScreenState extends State<CartScreen> {
                 ],
               ),
               const SizedBox(height: 10),
-              const SizedBox(height: 10),
-              for (var i = 0; i < 5; i++)
-                Container(
-                  margin: const EdgeInsets.only(top: 8, bottom: 8),
-                  padding: const EdgeInsets.all(16),
-                  height: 150,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade400,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: const Offset(0, 0),
-                        blurRadius: 6,
-                        color: Colors.black.withOpacity(0.2),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Service 1"),
-                      // TextButton(
-                      //   child: Text(
-                      //     "${pickedDate.day} - ${pickedDate.month} - ${pickedDate.year}",
-                      //     style: const TextStyle(
-                      //       fontSize: 14,
-                      //     ),
-                      //   ),
-                      //   onPressed: _pickDate,
-                      //   style: TextButton.styleFrom(
-                      //     primary: Colors.teal,
-                      //   ),
-                      // ),
-                      Row(
-                        children: [
-                          TextButton(
-                            child: Text(
-                              "${pickedDate.day} - ${pickedDate.month} - ${pickedDate.year}",
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            onPressed: _pickDate,
-                            style: TextButton.styleFrom(
-                              primary: Colors.black,
-                            ),
-                          ),
-                          TextButton(
-                            child: Text(
-                              "${time.hour} - ${time.minute} ${time.period.index == 2 ? 'AM' : 'PM'}",
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            onPressed: _pickTime,
-                            style: TextButton.styleFrom(
-                              primary: Colors.black,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+              // for (Appointment item in datas) AppointmentServiceCard(appointment: item, callback: (val) => item = val),
             ],
           ),
         ),
@@ -226,7 +129,15 @@ class _CartScreenState extends State<CartScreen> {
           child: Container(
             margin: const EdgeInsets.fromLTRB(10, 14, 10, 14),
             child: ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, "/confirmcart"),
+              onPressed: () {
+                List<SubService> services = Provider.of<Cart>(context, listen: false).appointment.services;
+
+                for (SubService item in services) {
+                  print(item.service.name);
+                }
+
+                // Navigator.pushNamed(context, "/confirmcart");
+              },
               child: const Text("Make Appointment"),
             ),
           ),

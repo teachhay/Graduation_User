@@ -17,6 +17,18 @@ class ShopCategory {
     required this.image,
   });
 
+  factory ShopCategory.init() {
+    return ShopCategory(
+      id: "",
+      name: "",
+      isActive: true,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      remark: "",
+      image: "",
+    );
+  }
+
   factory ShopCategory.fromJson(Map<dynamic, dynamic> json) {
     return ShopCategory(
       id: json["id"] as String,

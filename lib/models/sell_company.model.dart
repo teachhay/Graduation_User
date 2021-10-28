@@ -26,6 +26,21 @@ class SellCompany {
     required this.isActive,
   });
 
+  factory SellCompany.init() {
+    return SellCompany(
+      id: "",
+      name: "",
+      description: "",
+      remark: "",
+      logo: "",
+      categories: [],
+      address: Address.init(),
+      updatedAt: DateTime.now(),
+      createdAt: DateTime.now(),
+      isActive: true,
+    );
+  }
+
   factory SellCompany.fromJson(Map<String, dynamic> json) {
     return SellCompany(
       id: json["id"] as String,

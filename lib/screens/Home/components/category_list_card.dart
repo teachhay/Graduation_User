@@ -4,7 +4,6 @@ import 'package:userapp/constants/api.dart';
 import 'package:userapp/models/category.model.dart';
 import 'package:userapp/screens/detailbycategory/index.dart';
 import 'package:userapp/services/category.service.dart';
-import 'package:userapp/widgets/section_title.dart';
 
 class CategoryList extends StatelessWidget {
   const CategoryList({Key? key}) : super(key: key);

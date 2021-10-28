@@ -1,4 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:userapp/models/appointment.model.dart';
+import 'package:userapp/models/cart.model.dart';
 import 'package:userapp/models/service.model.dart';
 import 'package:userapp/services/service.service.dart';
 
@@ -95,7 +99,11 @@ class Card extends StatelessWidget {
                     margin: const EdgeInsets.only(top: 10),
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        // addServiceToAppointment(context, service);
+                        Provider.of<Cart>(context, listen: false).addSubService(SubService.fromService(service));
+                        Navigator.pop(context);
+                      },
                       child: const Text("Add to Appointment"),
                     ),
                   ),

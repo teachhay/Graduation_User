@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:userapp/models/appointment.model.dart';
 
 class Cart extends ChangeNotifier {
-  int counter = 0;
+  Appointment appointment = Appointment.init();
 
-  int get getCounter {
-    return counter;
+  Appointment get getAppointment {
+    return appointment;
   }
 
-  void increase() {
-    counter++;
+  void addAppointment(Appointment appointment) {
+    appointment = appointment;
     notifyListeners();
   }
 
-  void reset() {
-    counter = 0;
+  void addSubService(SubService subService) {
+    appointment.services.add(subService);
+    notifyListeners();
+  }
+
+  void removeSubService(SubService subService) {
+    appointment.services.remove(subService);
     notifyListeners();
   }
 }

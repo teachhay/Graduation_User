@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:userapp/models/sell_company.model.dart';
 import 'package:userapp/models/user.model.dart';
 import 'package:userapp/services/sell_company.service.dart';
 import 'package:userapp/widgets/appbar.dart';
