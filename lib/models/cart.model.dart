@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:userapp/models/appointment.model.dart';
+import 'package:userapp/models/service.model.dart';
 
 class Cart extends ChangeNotifier {
-  Appointment appointment = Appointment.init();
+  List<SubService> services = [];
 
-  Appointment get getAppointment {
-    return appointment;
+  List<SubService> get getServices {
+    return services;
   }
 
-  void addAppointment(Appointment appointment) {
-    appointment = appointment;
+  void addService(ShopService service) {
+    services.add(SubService(id: "", service: service, date: DateTime.now()));
     notifyListeners();
   }
 
-  void addSubService(SubService subService) {
-    appointment.services.add(subService);
-    notifyListeners();
-  }
-
-  void removeSubService(SubService subService) {
-    appointment.services.remove(subService);
+  void removeService(ShopService service) {
+    services.remove(SubService(id: "", service: service, date: DateTime.now()));
     notifyListeners();
   }
 }

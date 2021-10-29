@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:userapp/models/appointment.model.dart';
 import 'package:userapp/models/cart.model.dart';
-import 'package:userapp/services/appointment.service.dart';
 import 'package:userapp/widgets/appbar.dart';
+
+import 'components/appointment_service_card.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -108,7 +109,21 @@ class _CartScreenState extends State<CartScreen> {
                 ],
               ),
               const SizedBox(height: 10),
-              // for (Appointment item in datas) AppointmentServiceCard(appointment: item, callback: (val) => item = val),
+              Consumer<Cart>(
+                builder: (context, cart, child) {
+                  return ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    itemCount: cart.services.length,
+                    itemBuilder: (context, index) {
+                      return AppointmentServiceCard(subService: cart.services[index], callback: (val) => cart.services[index] = val);
+                    },
+                  );
+                },
+              ),
+              const SizedBox(height: 10),
+              // for (SubService item in Provider.of<Cart>(context, listen: true).services) AppointmentServiceCard(subService: item, callback: (val) => item = val),
             ],
           ),
         ),
@@ -130,7 +145,7 @@ class _CartScreenState extends State<CartScreen> {
             margin: const EdgeInsets.fromLTRB(10, 14, 10, 14),
             child: ElevatedButton(
               onPressed: () {
-                List<SubService> services = Provider.of<Cart>(context, listen: false).appointment.services;
+                List<SubService> services = Provider.of<Cart>(context, listen: false).getServices;
 
                 for (SubService item in services) {
                   print(item.service.name);

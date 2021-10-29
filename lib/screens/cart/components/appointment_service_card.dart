@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:userapp/models/appointment.model.dart';
 
 class AppointmentServiceCard extends StatefulWidget {
-  const AppointmentServiceCard({Key? key, required this.appointment, required this.callback}) : super(key: key);
-  final Appointment appointment;
+  const AppointmentServiceCard({Key? key, required this.subService, required this.callback}) : super(key: key);
+  final SubService subService;
   final Function callback;
 
   @override
@@ -13,13 +13,13 @@ class AppointmentServiceCard extends StatefulWidget {
 class _AppointmentServiceCardState extends State<AppointmentServiceCard> {
   DateTime pickedDate = DateTime.now();
   TimeOfDay pickedTime = TimeOfDay.now();
-  late Appointment appointment;
+  late SubService subService;
   late Function callback;
 
   @override
   void initState() {
     super.initState();
-    appointment = widget.appointment;
+    subService = widget.subService;
     callback = widget.callback;
   }
 
@@ -39,7 +39,7 @@ class _AppointmentServiceCardState extends State<AppointmentServiceCard> {
           // appointment.date = DateTime(pickedDate.year, pickedDate.month, pickedDate.day, pickedTime.hour, pickedTime.minute);
         });
 
-        callback(appointment);
+        callback(subService);
       }
     }
 
@@ -55,7 +55,7 @@ class _AppointmentServiceCardState extends State<AppointmentServiceCard> {
           // appointment.date = DateTime(pickedDate.year, pickedDate.month, pickedDate.day, pickedTime.hour, pickedTime.minute);
         });
 
-        callback(appointment);
+        callback(subService);
       }
     }
 
@@ -78,7 +78,7 @@ class _AppointmentServiceCardState extends State<AppointmentServiceCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Text(appointment.service.service.name),
+          Text(subService.service.name),
           Row(
             children: [
               TextButton(

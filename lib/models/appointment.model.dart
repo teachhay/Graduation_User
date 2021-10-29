@@ -69,8 +69,6 @@ class SubService {
     required this.date,
   });
 
-  SubService.fromService(this.service);
-
   factory SubService.fromJson(Map<String, dynamic> json) {
     return SubService(
       id: json["id"] as String,
