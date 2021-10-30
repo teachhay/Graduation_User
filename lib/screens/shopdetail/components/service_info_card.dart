@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:userapp/models/appointment.model.dart';
 import 'package:userapp/models/cart.model.dart';
 import 'package:userapp/models/service.model.dart';
 import 'package:userapp/services/service.service.dart';
@@ -12,7 +13,7 @@ class ServiceInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<ShopService>>(
-      future: fetchServies(shopId),
+      future: fetchServices(shopId),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return SizedBox(height: 80, child: Center(child: Text(snapshot.error.toString())));
@@ -37,7 +38,7 @@ class ServiceInfoCard extends StatelessWidget {
           itemBuilder: (context, index) {
             ShopService service = services[index];
 
-            return Card(service: service);
+            return CardContainer(service: service, shopId: shopId);
           },
         );
       },
@@ -45,9 +46,10 @@ class ServiceInfoCard extends StatelessWidget {
   }
 }
 
-class Card extends StatelessWidget {
-  const Card({Key? key, required this.service}) : super(key: key);
+class CardContainer extends StatelessWidget {
+  const CardContainer({Key? key, required this.service, required this.shopId}) : super(key: key);
   final ShopService service;
+  final String shopId;
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +100,49 @@ class Card extends StatelessWidget {
                     margin: const EdgeInsets.only(top: 10),
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Provider.of<Cart>(context, listen: false).addService(service);
+                      onPressed: () async {
+                        Cart cart = Provider.of<Cart>(context, listen: false);
+                        bool? option = false;
+
+                        print(cart.getServices.length);
+                        print(cart.getShopId);
+
+                        if (cart.getShopId == "") {
+                          cart.setShopId(shopId);
+                        }
+
+                        if (cart.getShopId != shopId) {
+                          option = await showDialog<bool>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('AlertDialog Title'),
+                              content: const Text('AlertDialog description'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context, false),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context, true),
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+
+                        if (option == true) {
+                          cart.clearServices();
+                          cart.setShopId(shopId);
+                          cart.addService(service);
+
+                          Navigator.pop(context);
+                          return;
+                        }
+
+                        if (cart.getShopId == shopId && option == false) {
+                          cart.addService(service);
+                        }
 
                         Navigator.pop(context);
                       },
