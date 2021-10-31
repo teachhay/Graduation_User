@@ -40,7 +40,7 @@ class _ShopDetailState extends State<ShopDetail> {
               ],
             ),
             const SizedBox(height: 10),
-            ServiceInfoCard(shopId: widget.shopInfo.id),
+            ServiceInfoCard(shop: widget.shopInfo),
           ],
         ),
       ),

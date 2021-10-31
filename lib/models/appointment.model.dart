@@ -25,20 +25,6 @@ class Appointment {
     required this.isActive,
   });
 
-  factory Appointment.init() {
-    return Appointment(
-      id: "",
-      remark: "",
-      services: [],
-      userId: User.init(),
-      sellCompany: SellCompany.init(),
-      status: [],
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      isActive: true,
-    );
-  }
-
   factory Appointment.fromJson(Map<String, dynamic> json) {
     return Appointment(
       id: json["id"] as String,

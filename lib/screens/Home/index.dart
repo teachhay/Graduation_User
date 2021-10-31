@@ -1,6 +1,9 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 // ignore: unused_import
 import 'package:userapp/constants/config.dart';
+import 'package:userapp/models/cart.model.dart';
 import 'package:userapp/screens/Home/components/category_list_card.dart';
 import 'package:userapp/screens/Home/components/shop_card.dart';
 import 'package:userapp/widgets/appbar.dart';
@@ -30,11 +33,45 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Cart cart = Provider.of<Cart>(context, listen: true);
+
+    handleCartClick() {
+      if (cart.getShop != null) {
+        Navigator.pushNamed(context, "/cart");
+        return;
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          duration: Duration(seconds: 5),
+          content: Text("Please select services first"),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: CustomAppBar(
         title: const Text("Home page"),
         widgets: [
-          IconButton(onPressed: () => Navigator.pushNamed(context, "/cart"), icon: const Icon(Icons.shopping_cart)),
+          IconButton(
+            onPressed: handleCartClick,
+            icon: Badge(
+              badgeColor: Colors.deepPurple,
+              toAnimate: false,
+              child: const Icon(Icons.shopping_cart),
+              badgeContent: Consumer<Cart>(
+                builder: (context, cart, child) {
+                  return Text(
+                    cart.getServices.length.toString(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          const SizedBox(width: 16),
         ],
       ),
       drawer: const CustomDrawer(),

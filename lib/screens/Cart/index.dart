@@ -16,6 +16,8 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
+    Cart cart = Provider.of<Cart>(context, listen: true);
+
     return Scaffold(
       appBar: const CustomAppBar(
         title: Text("Cart Page"),
@@ -46,8 +48,8 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       "Appointment Detail",
                       style: TextStyle(
                         fontSize: 18,
@@ -56,18 +58,18 @@ class _CartScreenState extends State<CartScreen> {
                         color: Colors.black,
                       ),
                     ),
-                    Divider(thickness: 3, color: Colors.white),
-                    SizedBox(height: 3),
+                    const Divider(thickness: 3, color: Colors.white),
+                    const SizedBox(height: 3),
                     Text(
-                      "Shop name",
-                      style: TextStyle(
+                      "Shop name - ${cart.getShop?.name}",
+                      style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 3),
-                    Text(
+                    const SizedBox(height: 3),
+                    const Text(
                       "Number of appointments",
                       style: TextStyle(
                         fontSize: 15,
@@ -75,8 +77,8 @@ class _CartScreenState extends State<CartScreen> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 3),
-                    Text(
+                    const SizedBox(height: 3),
+                    const Text(
                       "Book by",
                       style: TextStyle(
                         fontSize: 15,

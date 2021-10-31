@@ -15,17 +15,6 @@ class Address {
     required this.zipCode,
   });
 
-  factory Address.init() {
-    return const Address(
-      house: "",
-      state: "",
-      city: "",
-      street: "",
-      country: "",
-      zipCode: "",
-    );
-  }
-
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
       house: json["house"] as String,

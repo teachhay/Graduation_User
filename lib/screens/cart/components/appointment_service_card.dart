@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:userapp/constants/functions.dart';
 import 'package:userapp/models/appointment.model.dart';
 
 class AppointmentServiceCard extends StatefulWidget {
@@ -96,7 +98,7 @@ class _AppointmentServiceCardState extends State<AppointmentServiceCard> {
               ),
               TextButton(
                 child: Text(
-                  "${pickedTime.hour}:${pickedTime.minute} ${pickedTime.period.index == 0 ? 'AM' : 'PM'}",
+                  "${displayLeadingZero(pickedTime.hour)}:${displayLeadingZero(pickedTime.minute)} ${pickedTime.period.index == 0 ? 'AM' : 'PM'}",
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,

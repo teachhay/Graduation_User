@@ -1,4 +1,6 @@
 //Packages
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:page_transition/page_transition.dart';
@@ -6,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 //Constants
 import 'package:userapp/constants/config.dart';
+import 'package:userapp/models/app_state.model.dart';
 
 //Model
 import 'package:userapp/models/cart.model.dart';
@@ -71,12 +74,10 @@ class MainMaterialApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => Cart()),
-        // Provider<Cart>(create: (_) => Cart()),
+        ChangeNotifierProvider(create: (context) => AppState()),
       ],
       child: MaterialApp(
         title: 'User App',
-        //ignore: todo
-        //TODO extract ThemeData to external file
         theme: ThemeData(
           primarySwatch: Colors.purple,
           primaryColor: Colors.deepPurple,

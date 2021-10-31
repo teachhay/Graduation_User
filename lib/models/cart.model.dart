@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:userapp/models/appointment.model.dart';
+import 'package:userapp/models/sell_company.model.dart';
 import 'package:userapp/models/service.model.dart';
 
 class Cart extends ChangeNotifier {
   List<SubService> services = [];
-  String shopId = "";
+  SellCompany? shop;
 
   List<SubService> get getServices {
     return services;
   }
 
-  String get getShopId {
-    return shopId;
+  SellCompany? get getShop {
+    return shop;
   }
 
   void addService(ShopService service) {
@@ -29,8 +30,8 @@ class Cart extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setShopId(String id) {
-    shopId = id;
+  void setShop(SellCompany data) {
+    shop = data;
     notifyListeners();
   }
 }

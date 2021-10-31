@@ -2,16 +2,18 @@ import 'package:userapp/models/address.model.dart';
 
 class User {
   final String id;
-  final String? firstName;
-  final String? lastName;
-  final String? phoneNumber;
-  final DateTime? dob;
-  final String? profilePic;
-  final String? email;
-  final String? password;
-  final int? type;
-  final bool? isActive;
-  final Address? address;
+  final String firstName;
+  final String lastName;
+  final String phoneNumber;
+  final DateTime dob;
+  final String profilePic;
+  final String email;
+  final String password;
+  final int type;
+  final bool isActive;
+  final Address address;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   const User({
     required this.id,
@@ -25,23 +27,9 @@ class User {
     required this.type,
     required this.isActive,
     required this.address,
+    required this.createdAt,
+    required this.updatedAt,
   });
-
-  factory User.init() {
-    return User(
-      id: "",
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-      dob: DateTime.now(),
-      profilePic: "",
-      email: "",
-      password: "",
-      type: 0,
-      isActive: true,
-      address: Address.init(),
-    );
-  }
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -55,6 +43,8 @@ class User {
       password: json["password"] as String,
       type: json["type"] as int,
       isActive: json["isActive"] as bool,
+      createdAt: DateTime.parse(json["createdAt"]),
+      updatedAt: DateTime.parse(json["updatedAt"]),
       address: Address.fromJson(json["address"]),
     );
   }

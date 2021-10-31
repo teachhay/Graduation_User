@@ -21,19 +21,6 @@ class ShopService {
     required this.isActive,
   });
 
-  factory ShopService.init() {
-    return ShopService(
-      id: "",
-      name: "",
-      price: "",
-      remark: "",
-      sellCompany: SellCompany.init(),
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      isActive: true,
-    );
-  }
-
   factory ShopService.fromJson(Map<String, dynamic> json) {
     return ShopService(
       id: json["id"] as String,

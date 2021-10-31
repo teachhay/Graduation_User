@@ -1,19 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:userapp/models/appointment.model.dart';
 import 'package:userapp/models/cart.model.dart';
+import 'package:userapp/models/sell_company.model.dart';
 import 'package:userapp/models/service.model.dart';
 import 'package:userapp/services/service.service.dart';
 
 class ServiceInfoCard extends StatelessWidget {
-  const ServiceInfoCard({Key? key, required this.shopId}) : super(key: key);
-  final String shopId;
+  const ServiceInfoCard({Key? key, required this.shop}) : super(key: key);
+  final SellCompany shop;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<ShopService>>(
-      future: fetchServices(shopId),
+      future: fetchServices(shop.id),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return SizedBox(height: 80, child: Center(child: Text(snapshot.error.toString())));
@@ -38,7 +38,7 @@ class ServiceInfoCard extends StatelessWidget {
           itemBuilder: (context, index) {
             ShopService service = services[index];
 
-            return CardContainer(service: service, shopId: shopId);
+            return CardContainer(service: service, shop: shop);
           },
         );
       },
@@ -47,12 +47,14 @@ class ServiceInfoCard extends StatelessWidget {
 }
 
 class CardContainer extends StatelessWidget {
-  const CardContainer({Key? key, required this.service, required this.shopId}) : super(key: key);
+  const CardContainer({Key? key, required this.service, required this.shop}) : super(key: key);
   final ShopService service;
-  final String shopId;
+  final SellCompany shop;
 
   @override
   Widget build(BuildContext context) {
+    Cart cart = Provider.of<Cart>(context, listen: true);
+
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
@@ -101,50 +103,47 @@ class CardContainer extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () async {
-                        Cart cart = Provider.of<Cart>(context, listen: false);
                         bool? option = false;
 
-                        print(cart.getServices.length);
-                        print(cart.getShopId);
-
-                        if (cart.getShopId == "") {
-                          cart.setShopId(shopId);
+                        if (cart.getShop == null) {
+                          cart.setShop(shop);
                         }
 
-                        if (cart.getShopId != shopId) {
+                        if (cart.getShop?.id != shop.id) {
                           option = await showDialog<bool>(
                             context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text('AlertDialog Title'),
-                              content: const Text('AlertDialog description'),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context, false),
-                                  child: const Text('Cancel'),
-                                ),
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context, true),
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            ),
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Confirm to replace'),
+                                content: const Text('You had services from other shop. Do you want to replace them?'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context, false),
+                                    child: const Text('No'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context, true),
+                                    child: const Text('Yes'),
+                                  ),
+                                ],
+                              );
+                            },
                           );
                         }
 
                         if (option == true) {
                           cart.clearServices();
-                          cart.setShopId(shopId);
+                          cart.setShop(shop);
                           cart.addService(service);
 
                           Navigator.pop(context);
                           return;
                         }
 
-                        if (cart.getShopId == shopId && option == false) {
+                        if (cart.getShop?.id == shop.id && option == false) {
                           cart.addService(service);
+                          Navigator.pop(context);
                         }
-
-                        Navigator.pop(context);
                       },
                       child: const Text("Add to Appointment"),
                     ),
