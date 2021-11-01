@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Cart cart = Provider.of<Cart>(context, listen: true);
 
     handleCartClick() {
-      if (cart.getShop != null) {
+      if (cart.getShop != null && cart.getServices.isNotEmpty) {
         Navigator.pushNamed(context, "/cart");
         return;
       }

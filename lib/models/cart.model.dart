@@ -25,6 +25,11 @@ class Cart extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeSubService(SubService subService) {
+    services.remove(subService);
+    notifyListeners();
+  }
+
   void clearServices() {
     services = [];
     notifyListeners();

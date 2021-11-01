@@ -150,7 +150,7 @@ class _CartScreenState extends State<CartScreen> {
                 List<SubService> services = Provider.of<Cart>(context, listen: false).getServices;
 
                 for (SubService item in services) {
-                  print(item.service.name);
+                  print("${item.service.name} at ${item.date}");
                 }
 
                 // Navigator.pushNamed(context, "/confirmcart");
