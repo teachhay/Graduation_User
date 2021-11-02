@@ -8,7 +8,7 @@ import 'package:userapp/models/response.model.dart';
 Future<dynamic> fetchCategories() async {
   try {
     final api = ApiManager();
-    GetsResponse response = GetsResponse.fromJson(await api.getsApiCall("category"));
+    GetsResponse response = await api.getsApiCall("category");
     response.results = await compute(parseCategories, response.results);
 
     return response;

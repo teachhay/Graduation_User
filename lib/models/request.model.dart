@@ -1,27 +1,30 @@
 // ignore_for_file: avoid_print
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
 
 import 'package:userapp/constants/api.dart';
 import 'package:userapp/constants/config.dart';
+import 'package:userapp/models/response.model.dart';
 
 class ApiManager {
   final Map<String, String> headers = {
-    // "Accept": "application/json",
-    // "Content-type": "application/json; charset=UTF-8",
+    "Accept": "application/json",
+    "Content-type": "application/json; charset=UTF-8",
     "Authorization": token ?? "",
   };
 
-  Future<dynamic> postApiCall(String url, Map param) async {
+  Future<dynamic> postApiCall(String url, Map data) async {
     try {
       print("Calling POST API: /$url");
-      print("Calling parameters: $param");
+      print("Calling parameters: $data");
 
-      final response = await http.post(Uri.parse("$apiUrl/$url"), body: param, headers: headers).timeout(const Duration(seconds: 5));
+      Response response = await http.post(Uri.parse("$apiUrl/$url"), body: jsonEncode(data), headers: headers).timeout(const Duration(seconds: 5));
+      PostResponse post = PostResponse.fromJson(_response(response));
 
-      return _response(response);
+      return post;
     } on SocketException catch (e) {
       throw Exception(e.message);
     } on TimeoutException catch (e) {
@@ -43,9 +46,9 @@ class ApiManager {
         response = await http.get(Uri.parse("$apiUrl/$url"), headers: headers);
       }
 
-      print(response.statusCode);
+      GetsResponse getsResponse = GetsResponse.fromJson(_response(response));
 
-      return _response(response);
+      return getsResponse;
     } on SocketException catch (e) {
       throw Exception(e.message);
     } on TimeoutException catch (e) {
@@ -53,12 +56,12 @@ class ApiManager {
     }
   }
 
-  Future<dynamic> putApiCall(String url, body) async {
+  Future<dynamic> putApiCall(String url, Map data) async {
     try {
       print("Calling PUT API: /$url");
-      print("Calling parameters: $body");
+      print("Calling parameters: $data");
 
-      final response = await http.put(Uri.parse(url), body: body, headers: headers).timeout(const Duration(seconds: 5));
+      final response = await http.put(Uri.parse("$apiUrl/$url"), body: jsonEncode(data), headers: headers).timeout(const Duration(seconds: 5));
 
       return _response(response);
     } on SocketException catch (e) {
@@ -68,13 +71,23 @@ class ApiManager {
     }
   }
 
-  Future<dynamic> getApiCall(String url) async {
+  Future<dynamic> getApiCall(String url, {dynamic params}) async {
     try {
       print("Calling GET By Id API: /$url");
 
-      final response = await http.put(Uri.parse(url), headers: headers).timeout(const Duration(seconds: 5));
+      final dynamic response;
 
-      return _response(response);
+      if (params != null) {
+        String queryString = Uri(queryParameters: params).query;
+
+        response = await http.get(Uri.parse("$apiUrl/$url?" + queryString), headers: headers);
+      } else {
+        response = await http.get(Uri.parse("$apiUrl/$url"), headers: headers);
+      }
+
+      GetResponse getResponse = GetResponse.fromJson(_response(response));
+
+      return getResponse;
     } on SocketException catch (e) {
       throw Exception(e.message);
     } on TimeoutException catch (e) {
@@ -85,19 +98,22 @@ class ApiManager {
 
 class AuthRequest {
   final Map<String, String> headers = {
-    // "Accept": "application/json",
-    // "Content-type": "application/json; charset=UTF-8",
+    "Accept": "application/json",
+    "Content-type": "application/json; charset=UTF-8",
     "Authorization": token ?? "",
   };
 
-  Future<dynamic> postApiCall(String url, Map param) async {
+  Future<dynamic> postApiCall(String url, Map data) async {
     try {
       print("Calling POST AUTH API: /$url");
-      print("Calling parameters: $param");
+      print("Calling parameters: $data");
 
-      final response = await http.post(Uri.parse("$authUrl/$url"), body: param, headers: headers).timeout(const Duration(seconds: 5));
+      final response = await http.post(Uri.parse("$authUrl/$url"), body: jsonEncode(data), headers: headers).timeout(const Duration(seconds: 5));
+      LoginResponse post = LoginResponse.fromJson(_response(response));
 
-      return _response(response);
+      print(post.meta);
+
+      return post;
     } on SocketException catch (e) {
       throw Exception(e.message);
     } on TimeoutException catch (e) {

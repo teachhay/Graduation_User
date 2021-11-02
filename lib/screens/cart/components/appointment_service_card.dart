@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:userapp/constants/functions.dart';
 import 'package:userapp/models/appointment.model.dart';
 import 'package:userapp/models/cart.model.dart';
-import 'package:userapp/models/service.model.dart';
 
 class AppointmentServiceCard extends StatefulWidget {
   const AppointmentServiceCard({Key? key, required this.subService, required this.callback}) : super(key: key);

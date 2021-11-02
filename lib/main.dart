@@ -14,7 +14,7 @@ import 'package:userapp/models/app_state.model.dart';
 import 'package:userapp/models/cart.model.dart';
 
 //Screens
-import 'package:userapp/screens/Cart/confirm.dart';
+import 'package:userapp/screens/Cart/confirmed.dart';
 import 'package:userapp/screens/Cart/confirm_cart.dart';
 import 'package:userapp/screens/Cart/index.dart';
 import 'package:userapp/screens/Home/index.dart';
@@ -32,6 +32,8 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  //ignore: todo
+  //TODO convert state variable to Class
   Future<bool> initApp() async {
     prefs = await SharedPreferences.getInstance();
     token = prefs.getString(tokenKey) ?? "";
@@ -84,7 +86,7 @@ class MainMaterialApp extends StatelessWidget {
           // scaffoldBackgroundColor: Colors.white,
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: token != "" ? "/home" : "/login",
+        initialRoute: token != "" ? "/confirmcart" : "/login",
         navigatorKey: navigatorKey,
         onGenerateRoute: (settings) {
           switch (settings.name) {
@@ -107,7 +109,7 @@ class MainMaterialApp extends StatelessWidget {
             case '/confirmcart':
               return PageTransition(child: const ConfirmCartScreen(), type: PageTransitionType.rightToLeftWithFade);
             case '/confirm':
-              return PageTransition(child: const ConfirmScreen(), type: PageTransitionType.rightToLeftWithFade);
+              return PageTransition(child: const ConfirmScreen(), type: PageTransitionType.fade);
             default:
               return null;
           }

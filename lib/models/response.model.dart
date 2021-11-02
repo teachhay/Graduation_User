@@ -66,6 +66,23 @@ class GetResponse {
   }
 }
 
+class PostResponse {
+  final int meta;
+  final dynamic data;
+
+  PostResponse({
+    required this.meta,
+    required this.data,
+  });
+
+  factory PostResponse.fromJson(Map<String, dynamic> json) {
+    return PostResponse(
+      meta: json["meta"] as int,
+      data: json["data"] as dynamic,
+    );
+  }
+}
+
 class ErrorResponse {
   final int meta;
   final String message;

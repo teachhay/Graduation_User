@@ -12,9 +12,9 @@ Future<dynamic> fetchShops({dynamic query}) async {
     GetsResponse response;
 
     if (query != null) {
-      response = GetsResponse.fromJson(await api.getsApiCall("shop", params: query));
+      response = await api.getsApiCall("shop", params: query);
     } else {
-      response = GetsResponse.fromJson(await api.getsApiCall("shop"));
+      response = await api.getsApiCall("shop");
     }
 
     response.results = await compute(parseShops, response.results);

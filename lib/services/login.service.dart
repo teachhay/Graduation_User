@@ -10,7 +10,7 @@ Future<dynamic> login(String email, String password) async {
       "password": password,
     };
     AuthRequest auth = AuthRequest();
-    LoginResponse response = LoginResponse.fromJson(await auth.postApiCall("userlogin", data));
+    LoginResponse response = await auth.postApiCall("userlogin", data);
 
     if (response.meta == 200) {
       return response;
