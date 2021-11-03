@@ -128,6 +128,8 @@ dynamic _response(http.Response response) {
   switch (response.statusCode) {
     case 200:
       return responseJson;
+    case 201:
+      return responseJson;
     case 400:
       throw BadRequestException(response.body.toString());
     case 401:

@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:userapp/constants/functions.dart';
+import 'package:userapp/models/appointment.model.dart';
+import 'package:userapp/models/cart.model.dart';
+import 'package:userapp/models/response.model.dart';
+import 'package:userapp/services/cart.service.dart';
 import 'package:userapp/widgets/appbar.dart';
+import 'package:userapp/widgets/custom_vertical_divider.dart';
 
 class ConfirmCartScreen extends StatefulWidget {
   const ConfirmCartScreen({Key? key}) : super(key: key);
@@ -11,9 +18,15 @@ class ConfirmCartScreen extends StatefulWidget {
 class _ConfirmCartScreenState extends State<ConfirmCartScreen> {
   @override
   Widget build(BuildContext context) {
+    Cart cart = Provider.of<Cart>(context, listen: true);
+
+    findSum() {
+      return cart.getServices.map((item) => item.service.price).reduce((a, b) => a + b);
+    }
+
     return Scaffold(
       appBar: const CustomAppBar(
-        title: Text("Confirm Page"),
+        title: Text("Appointment Overview"),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -21,22 +34,21 @@ class _ConfirmCartScreenState extends State<ConfirmCartScreen> {
           padding: const EdgeInsets.all(14),
           // height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            color: Colors.grey.shade100,
+          decoration: const BoxDecoration(
+            color: Colors.white,
           ),
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Appointment Detail",
+                "Details",
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Divider(thickness: 2),
-              const SizedBox(height: 6),
+              const CustomVerticalDivider(sizeBoxheight: 6, dividerThickness: 2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -45,11 +57,11 @@ class _ConfirmCartScreenState extends State<ConfirmCartScreen> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey.shade500,
+                      color: Colors.grey.shade600,
                     ),
                   ),
                   Text(
-                    "Shop 1",
+                    "${cart.getShop?.name}",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -67,7 +79,7 @@ class _ConfirmCartScreenState extends State<ConfirmCartScreen> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey.shade500,
+                      color: Colors.grey.shade600,
                     ),
                   ),
                   Text(
@@ -80,9 +92,7 @@ class _ConfirmCartScreenState extends State<ConfirmCartScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 6),
-              const Divider(thickness: 2),
-              const SizedBox(height: 6),
+              const CustomVerticalDivider(sizeBoxheight: 6, dividerThickness: 2),
               const Text(
                 "Services",
                 style: TextStyle(
@@ -90,40 +100,26 @@ class _ConfirmCartScreenState extends State<ConfirmCartScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              for (var i = 0; i < 5; i++)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8, bottom: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text("Service $i"),
-                          const Text("Time"),
-                        ],
-                      ),
-                      Text(
-                        "\$ ${i * 2 + i + 1}",
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              const SizedBox(height: 6),
-              const Divider(thickness: 2),
-              const SizedBox(height: 6),
+              Consumer<Cart>(
+                builder: (context, cart, child) {
+                  return ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    itemCount: cart.services.length,
+                    itemBuilder: (context, index) {
+                      return ServiceSubCard(subService: cart.getServices[index]);
+                    },
+                  );
+                },
+              ),
+              // for (var i = 0; i < 20; i++) ServiceSubCard(i: i),
+              const CustomVerticalDivider(sizeBoxheight: 6, dividerThickness: 2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     "Total:",
                     style: TextStyle(
                       fontSize: 18,
@@ -131,8 +127,8 @@ class _ConfirmCartScreenState extends State<ConfirmCartScreen> {
                     ),
                   ),
                   Text(
-                    "12",
-                    style: TextStyle(
+                    "${findSum()}",
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -159,13 +155,80 @@ class _ConfirmCartScreenState extends State<ConfirmCartScreen> {
           child: Container(
             margin: const EdgeInsets.fromLTRB(10, 14, 10, 14),
             child: ElevatedButton(
-              onPressed: () {
-                // Navigator.pushReplacementNamed(context, "/confirm");
+              onPressed: () async {
+                dynamic response = await createAppointment(shop: cart.getShop, subServices: cart.getServices);
+
+                if (response != null) {
+                  cart.reset();
+                  Navigator.pushReplacementNamed(context, "/confirm");
+                }
               },
               child: const Text("Confirm Appointment"),
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ServiceSubCard extends StatelessWidget {
+  const ServiceSubCard({Key? key, required this.subService}) : super(key: key);
+
+  final SubService subService;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 12, bottom: 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                subService.service.name,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Row(
+                children: [
+                  Text(
+                    "${subService.date?.day}/${subService.date?.month}/${subService.date?.year}",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey.shade500,
+                    ),
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    "${displayLeadingZero(subService.date!.hour.toInt())}:${displayLeadingZero(subService.date!.minute.toInt())}",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey.shade500,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+          Text(
+            "\$ ${subService.service.price}",
+            style: const TextStyle(
+              fontSize: 16,
+              color: Colors.blueAccent,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -86,7 +86,7 @@ class MainMaterialApp extends StatelessWidget {
           // scaffoldBackgroundColor: Colors.white,
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: token != "" ? "/confirmcart" : "/login",
+        initialRoute: token != "" ? "/home" : "/login",
         navigatorKey: navigatorKey,
         onGenerateRoute: (settings) {
           switch (settings.name) {

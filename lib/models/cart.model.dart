@@ -39,4 +39,9 @@ class Cart extends ChangeNotifier {
     shop = data;
     notifyListeners();
   }
+
+  void reset() {
+    services = [];
+    shop = null;
+  }
 }

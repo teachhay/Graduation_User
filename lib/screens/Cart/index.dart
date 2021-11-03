@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:userapp/models/appointment.model.dart';
+// import 'package:userapp/models/appointment.model.dart';
 import 'package:userapp/models/cart.model.dart';
 import 'package:userapp/widgets/appbar.dart';
+import 'package:userapp/widgets/custom_vertical_divider.dart';
 
 import 'components/appointment_service_card.dart';
 
@@ -20,10 +21,10 @@ class _CartScreenState extends State<CartScreen> {
 
     return Scaffold(
       appBar: const CustomAppBar(
-        title: Text("Cart Page"),
+        title: Text("Appointments List"),
       ),
       body: Container(
-        margin: const EdgeInsets.only(left: 8, right: 8),
+        margin: const EdgeInsets.fromLTRB(12, 0, 12, 0),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -33,18 +34,18 @@ class _CartScreenState extends State<CartScreen> {
               Container(
                 margin: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                 padding: const EdgeInsets.all(15),
-                height: 150,
+                // height: 150,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade500,
+                  color: Colors.grey.shade300,
                   borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: const Offset(0, 2),
-                      blurRadius: 4,
-                      color: Colors.black.withOpacity(0.2),
-                    ),
-                  ],
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     offset: const Offset(0, 2),
+                  //     blurRadius: 4,
+                  //     color: Colors.black.withOpacity(0.2),
+                  //   ),
+                  // ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,38 +59,14 @@ class _CartScreenState extends State<CartScreen> {
                         color: Colors.black,
                       ),
                     ),
-                    const Divider(thickness: 3, color: Colors.white),
-                    const SizedBox(height: 3),
-                    Text(
-                      "Shop name - ${cart.getShop?.name}",
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    const Text(
-                      "Number of appointments",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    const Text(
-                      "Book by",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
+                    const CustomVerticalDivider(sizeBoxheight: 3),
+                    SectionDetail(title: "Shop name:", value: "${cart.getShop?.name}"),
+                    SectionDetail(title: "# of appointments:", value: "${cart.getServices.length}"),
+                    const SectionDetail(title: "Book by:", value: "User 1"),
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 4),
               Stack(
                 alignment: Alignment.centerLeft,
                 children: [
@@ -110,7 +87,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 8),
               Consumer<Cart>(
                 builder: (context, cart, child) {
                   return ListView.builder(
@@ -147,18 +124,53 @@ class _CartScreenState extends State<CartScreen> {
             margin: const EdgeInsets.fromLTRB(10, 14, 10, 14),
             child: ElevatedButton(
               onPressed: () {
-                List<SubService> services = Provider.of<Cart>(context, listen: false).getServices;
+                // List<SubService> services = Provider.of<Cart>(context, listen: false).getServices;
 
-                for (SubService item in services) {
-                  print("${item.service.name} at ${item.date}");
-                }
+                // for (SubService item in services) {
+                //   print("${item.service.name} at ${item.date}");
+                // }
 
-                // Navigator.pushNamed(context, "/confirmcart");
+                Navigator.pushNamed(context, "/confirmcart");
               },
               child: const Text("Make Appointment"),
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class SectionDetail extends StatelessWidget {
+  const SectionDetail({Key? key, this.title = "Placeholder title", this.value = "Placeholder value"}) : super(key: key);
+
+  final String title;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 3, bottom: 3),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
+          ),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
+          ),
+        ],
       ),
     );
   }
