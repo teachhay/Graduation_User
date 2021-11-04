@@ -29,6 +29,8 @@ void main() {
   runApp(const MyApp());
 }
 
+//ignore: todo
+//TODO rework futurebuilder response, service logics, indicator
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -86,7 +88,7 @@ class MainMaterialApp extends StatelessWidget {
           // scaffoldBackgroundColor: Colors.white,
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: token != "" ? "/home" : "/login",
+        initialRoute: token != "" ? "/order" : "/login",
         navigatorKey: navigatorKey,
         onGenerateRoute: (settings) {
           switch (settings.name) {

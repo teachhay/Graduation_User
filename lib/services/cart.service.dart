@@ -23,7 +23,6 @@ Future<dynamic> createAppointment({SellCompany? shop, List<SubService>? subServi
       ],
       "remark": remark,
     };
-
     ApiManager request = ApiManager();
     PostResponse response = await request.postApiCall("appointment", data);
 
@@ -33,7 +32,6 @@ Future<dynamic> createAppointment({SellCompany? shop, List<SubService>? subServi
 
     return null;
   } catch (e) {
-    print(jsonDecode(jsonEncode(e)));
     return ErrorResponse.fromJson(jsonDecode(jsonEncode(e)));
   }
 }

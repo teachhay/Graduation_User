@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:userapp/widgets/general_indicator.dart';
 
 class LoadingIndicator extends StatelessWidget {
   const LoadingIndicator({Key? key, this.style = true}) : super(key: key);
@@ -6,13 +7,8 @@ class LoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        height: 100,
-        child: Center(
-          child: style ? const CircularProgressIndicator() : const Padding(padding: EdgeInsets.only(left: 16, right: 16), child: LinearProgressIndicator()),
-        ),
-      ),
+    return GeneralIndicator(
+      child: style ? const CircularProgressIndicator() : const Padding(padding: EdgeInsets.only(left: 16, right: 16), child: LinearProgressIndicator()),
     );
   }
 }

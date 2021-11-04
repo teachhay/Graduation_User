@@ -56,14 +56,15 @@ class ApiManager {
     }
   }
 
-  Future<dynamic> putApiCall(String url, Map data) async {
+  Future<dynamic> putApiCall(String url, dynamic data) async {
     try {
       print("Calling PUT API: /$url");
       print("Calling parameters: $data");
 
-      final response = await http.put(Uri.parse("$apiUrl/$url"), body: jsonEncode(data), headers: headers).timeout(const Duration(seconds: 5));
+      Response response = await http.put(Uri.parse("$apiUrl/$url"), body: jsonEncode(data), headers: headers).timeout(const Duration(seconds: 5));
+      PostResponse post = PostResponse.fromJson(_response(response));
 
-      return _response(response);
+      return post;
     } on SocketException catch (e) {
       throw Exception(e.message);
     } on TimeoutException catch (e) {

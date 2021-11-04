@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:userapp/constants/functions.dart';
 import 'package:userapp/models/appointment.model.dart';
 import 'package:userapp/models/cart.model.dart';
-import 'package:userapp/models/response.model.dart';
 import 'package:userapp/services/cart.service.dart';
 import 'package:userapp/widgets/appbar.dart';
 import 'package:userapp/widgets/custom_vertical_divider.dart';

@@ -38,6 +38,18 @@ class Appointment {
       isActive: json["isActive"] as bool,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "services": services,
+        "userId": userId,
+        "sellCompany": sellCompany,
+        "remark": remark,
+        "status": status,
+        // "createdAt": this.createdAt,
+        // "updatedAt": this.updatedAt,
+        "isActive": isActive,
+      };
 }
 
 List<Appointment> parseAppointments(dynamic body) {

@@ -6,9 +6,9 @@ import 'package:userapp/models/request.model.dart';
 import 'package:userapp/models/response.model.dart';
 import 'package:userapp/models/sell_company.model.dart';
 
-Future<dynamic> fetchShops({dynamic query}) async {
+Future<dynamic> fetchShops({Map<String, dynamic>? query}) async {
   try {
-    final api = ApiManager();
+    final ApiManager api = ApiManager();
     GetsResponse response;
 
     if (query != null) {
@@ -17,6 +17,7 @@ Future<dynamic> fetchShops({dynamic query}) async {
       response = await api.getsApiCall("shop");
     }
 
+    //REWORK check meta before return
     response.results = await compute(parseShops, response.results);
 
     return response;

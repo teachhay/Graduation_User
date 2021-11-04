@@ -12,7 +12,7 @@ Future<User> login() async {
     },
     body: jsonEncode(<String, String>{
       "email": "user@gmail.com",
-      "password": "admin123",
+      "password": "admin12",
     }),
   );
 
