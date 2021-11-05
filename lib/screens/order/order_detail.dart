@@ -81,8 +81,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: const [
                         Text("From:"),
-                        //ignore: todo
-                        //TODO replace with userinfo
+                        //FIXME replace with userinfo
                         Text("User 1"),
                       ],
                     ),

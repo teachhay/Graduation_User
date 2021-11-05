@@ -91,8 +91,7 @@ class MainMaterialApp extends StatelessWidget {
         initialRoute: token != "" ? "/home" : "/login",
         navigatorKey: navigatorKey,
         onGenerateRoute: (settings) {
-          print("Route ${settings.name}");
-
+          // print("Route ${settings.name}");
           switch (settings.name) {
             case '/login':
               return PageTransition(child: const LoginScreen(), type: PageTransitionType.fade);
