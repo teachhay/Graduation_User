@@ -81,7 +81,7 @@ class OrderHistoryCard extends StatelessWidget {
       ),
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => OrderDetailScreen(appointment: appointment)));
-        // Navigator.push(context, PageTransition(child: const OrderDetailScreen(), type: PageTransitionType.size, alignment: Alignment.bottomCenter));
+        // Navigator.push(context, PageTransition(child: OrderDetailScreen(appointment: appointment), type: PageTransitionType.size, alignment: Alignment.bottomCenter));
       },
     );
   }

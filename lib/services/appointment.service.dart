@@ -28,29 +28,8 @@ Future<dynamic> fetchAppointments({Map<String, dynamic>? query}) async {
 
 Future<dynamic> cancelAppointment({required Appointment appointment}) async {
   try {
-//REWORK logic needs rework
-    Map<String, dynamic> data = {
-      "sellCompany": appointment.sellCompany.id,
-      "userId": appointment.userId.id,
-      "services": appointment.services.map((item) {
-        return {
-          "id": item.id ?? "",
-          "service": item.service.id,
-          "date": item.date!.toIso8601String(),
-        };
-      }).toList(),
-      "status": appointment.status.map((item) {
-        return {
-          "type": item.type,
-          "date": item.date.toIso8601String(),
-        };
-      }).toList(),
-      "remark": appointment.remark,
-      "isActive": appointment.isActive,
-    };
-
     final ApiManager api = ApiManager();
-    PostResponse response = await api.putApiCall("appointment/${appointment.id}", data);
+    PostResponse response = await api.putApiCall("appointment/${appointment.id}", appointment);
 
     if (response.meta == 200) {
       return response;

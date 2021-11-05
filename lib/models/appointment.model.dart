@@ -39,17 +39,17 @@ class Appointment {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "services": services,
-        "userId": userId,
-        "sellCompany": sellCompany,
-        "remark": remark,
-        "status": status,
-        // "createdAt": this.createdAt,
-        // "updatedAt": this.updatedAt,
-        "isActive": isActive,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "services": services,
+      "userId": userId.id,
+      "sellCompany": sellCompany.id,
+      "remark": remark,
+      "status": status,
+      "isActive": isActive,
+    };
+  }
 }
 
 List<Appointment> parseAppointments(dynamic body) {
@@ -57,9 +57,9 @@ List<Appointment> parseAppointments(dynamic body) {
 }
 
 class SubService {
-  String? id;
+  String id;
   ShopService service;
-  DateTime? date;
+  DateTime date;
 
   SubService({
     required this.id,
@@ -73,6 +73,14 @@ class SubService {
       service: ShopService.fromJson(json["service"]),
       date: DateTime.parse(json["date"]),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "service": service.id,
+      "date": date.toIso8601String(),
+    };
   }
 }
 
@@ -90,5 +98,12 @@ class Status {
       type: json["type"] as int,
       date: DateTime.parse(json["date"]),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "type": type,
+      "date": date.toIso8601String(),
+    };
   }
 }

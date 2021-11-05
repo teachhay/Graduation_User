@@ -13,9 +13,9 @@ Future<dynamic> createAppointment({SellCompany? shop, List<SubService>? subServi
       "userId": "61445de53e57b9c71d2c90ce",
       "services": subServices!.map((item) {
         return {
-          "id": item.id ?? "",
+          "id": item.id,
           "service": item.service.id,
-          "date": item.date!.toIso8601String(),
+          "date": item.date.toIso8601String(),
         };
       }).toList(),
       "status": [

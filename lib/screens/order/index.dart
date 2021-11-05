@@ -18,7 +18,7 @@ class OrderScreen extends StatefulWidget {
 
 class _OrderScreenState extends State<OrderScreen> {
   Map<String, dynamic> query = {
-    "userId": "61445de53e57b9c71d2c90ce",
+    "userId": "61445de53e57b9c71d2c90ce", //FIXME replace userId from logged in user
   };
 
   @override

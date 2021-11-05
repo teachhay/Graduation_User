@@ -199,7 +199,7 @@ class ServiceSubCard extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "${subService.date?.day}/${subService.date?.month}/${subService.date?.year}",
+                    "${subService.date.day}/${subService.date.month}/${subService.date.year}",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -208,7 +208,7 @@ class ServiceSubCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 5),
                   Text(
-                    "${displayLeadingZero(subService.date!.hour.toInt())}:${displayLeadingZero(subService.date!.minute.toInt())}",
+                    "${displayLeadingZero(subService.date.hour.toInt())}:${displayLeadingZero(subService.date.minute.toInt())}",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,

@@ -16,22 +16,6 @@ class ApiManager {
     "Authorization": token ?? "",
   };
 
-  Future<dynamic> postApiCall(String url, Map data) async {
-    try {
-      print("Calling POST API: /$url");
-      print("Calling parameters: $data");
-
-      Response response = await http.post(Uri.parse("$apiUrl/$url"), body: jsonEncode(data), headers: headers).timeout(const Duration(seconds: 5));
-      PostResponse post = PostResponse.fromJson(_response(response));
-
-      return post;
-    } on SocketException catch (e) {
-      throw Exception(e.message);
-    } on TimeoutException catch (e) {
-      throw Exception(e.message);
-    }
-  }
-
   Future<dynamic> getsApiCall(String url, {dynamic params}) async {
     try {
       print("Calling GET API: /$url");
@@ -56,22 +40,6 @@ class ApiManager {
     }
   }
 
-  Future<dynamic> putApiCall(String url, dynamic data) async {
-    try {
-      print("Calling PUT API: /$url");
-      print("Calling parameters: $data");
-
-      Response response = await http.put(Uri.parse("$apiUrl/$url"), body: jsonEncode(data), headers: headers).timeout(const Duration(seconds: 5));
-      PostResponse post = PostResponse.fromJson(_response(response));
-
-      return post;
-    } on SocketException catch (e) {
-      throw Exception(e.message);
-    } on TimeoutException catch (e) {
-      throw Exception(e.message);
-    }
-  }
-
   Future<dynamic> getApiCall(String url, {dynamic params}) async {
     try {
       print("Calling GET By Id API: /$url");
@@ -89,6 +57,38 @@ class ApiManager {
       GetResponse getResponse = GetResponse.fromJson(_response(response));
 
       return getResponse;
+    } on SocketException catch (e) {
+      throw Exception(e.message);
+    } on TimeoutException catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  Future<dynamic> postApiCall(String url, Map data) async {
+    try {
+      print("Calling POST API: /$url");
+      print("Calling parameters: ${jsonEncode(data)}");
+
+      Response response = await http.post(Uri.parse("$apiUrl/$url"), body: jsonEncode(data), headers: headers).timeout(const Duration(seconds: 5));
+      PostResponse post = PostResponse.fromJson(_response(response));
+
+      return post;
+    } on SocketException catch (e) {
+      throw Exception(e.message);
+    } on TimeoutException catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  Future<dynamic> putApiCall(String url, dynamic data) async {
+    try {
+      print("Calling PUT API: /$url");
+      print("Calling parameters: ${jsonEncode(data)}");
+
+      Response response = await http.put(Uri.parse("$apiUrl/$url"), body: jsonEncode(data), headers: headers).timeout(const Duration(seconds: 5));
+      PostResponse post = PostResponse.fromJson(_response(response));
+
+      return post;
     } on SocketException catch (e) {
       throw Exception(e.message);
     } on TimeoutException catch (e) {
@@ -132,18 +132,19 @@ dynamic _response(http.Response response) {
     case 201:
       return responseJson;
     case 400:
-      throw BadRequestException(response.body.toString());
+      // return BadRequestException(response.body.toString());
+      return responseJson;
     case 401:
       if (responseJson["meta"] == 4001) {
         navigatorKey!.currentState!.pushReplacementNamed('/login');
       }
 
-      throw responseJson;
+      return responseJson;
     case 403:
-      throw UnauthorisedException(response.body.toString());
+      return UnauthorisedException(response.body.toString());
     case 500:
     default:
-      throw responseJson;
+      return responseJson;
     // throw FetchDataException('Error occured while Communication with Server with StatusCode: ${response.statusCode}');
   }
 }
