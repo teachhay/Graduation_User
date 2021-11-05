@@ -48,4 +48,22 @@ class User {
       address: Address.fromJson(json["address"]),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "firstName": firstName,
+      "lastName": lastName,
+      "phoneNumber": phoneNumber,
+      "dob": dob,
+      "profilePic": profilePic,
+      "email": email,
+      "password": password,
+      "type": type,
+      "isActive": isActive,
+      "address": address,
+      // "": createdAt,
+      // "": updatedAt,
+    };
+  }
 }

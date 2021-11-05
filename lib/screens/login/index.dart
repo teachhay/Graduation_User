@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 import 'package:flutter/material.dart';
 import 'package:userapp/constants/config.dart';
-import 'package:userapp/services/login.service.dart';
+import 'package:userapp/services/auth.service.dart';
 import 'package:userapp/widgets/appbar.dart';
 import 'package:userapp/widgets/section_title.dart';
 

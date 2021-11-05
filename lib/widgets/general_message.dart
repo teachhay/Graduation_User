@@ -6,7 +6,8 @@ class GeneralMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.5,
       child: Text(
         message,
         style: const TextStyle(

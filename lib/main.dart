@@ -1,6 +1,6 @@
-//Packages
 // ignore_for_file: avoid_print
 
+//Packages
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:page_transition/page_transition.dart';
@@ -23,14 +23,12 @@ import 'package:userapp/screens/order/index.dart';
 import 'package:userapp/screens/profile/index.dart';
 import 'package:userapp/screens/review/index.dart';
 import 'package:userapp/widgets/general_message.dart';
-import 'package:userapp/widgets/loading_indicator.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-//ignore: todo
-//TODO rework futurebuilder response, service logics, indicator
+//REWORK rework futurebuilder response, service logics, indicator
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -48,7 +46,7 @@ class MyApp extends StatelessWidget {
     if (userinfo == null) {}
 
     return true;
-    // return Future.delayed(const Duration(seconds: 5), () => true); //real server simulation
+    // return Future.delayed(const Duration(seconds: 5), () => true); // server delay simulation
   }
 
   @override
@@ -64,7 +62,7 @@ class MyApp extends StatelessWidget {
           return const MainMaterialApp();
         }
 
-        return const CustomMaterialApp(child: LoadingIndicator());
+        return const CustomMaterialApp(child: Center(child: CircularProgressIndicator()));
       },
     );
   }
@@ -88,7 +86,7 @@ class MainMaterialApp extends StatelessWidget {
           // scaffoldBackgroundColor: Colors.white,
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: token != "" ? "/home" : "/login",
+        initialRoute: token != "" ? "/profile" : "/login",
         navigatorKey: navigatorKey,
         onGenerateRoute: (settings) {
           // print("Route ${settings.name}");

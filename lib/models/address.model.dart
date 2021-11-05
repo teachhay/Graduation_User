@@ -25,4 +25,15 @@ class Address {
       zipCode: json["zipCode"] as String,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "house": house,
+      "state": state,
+      "city": city,
+      "street": street,
+      "country": country,
+      "zipCode": zipCode,
+    };
+  }
 }
