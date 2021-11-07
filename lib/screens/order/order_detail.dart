@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:userapp/constants/config.dart';
 import 'package:userapp/constants/functions.dart';
 import 'package:userapp/models/appointment.model.dart';
 import 'package:userapp/widgets/appbar.dart';
@@ -79,10 +80,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     const SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text("From:"),
-                        //FIXME replace with userinfo
-                        Text("User 1"),
+                      children: [
+                        const Text("From:"),
+                        Text(appointment.userId.firstName + " " + appointment.userId.lastName),
                       ],
                     ),
                     Row(

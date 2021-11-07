@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:userapp/constants/api.dart';
+import 'package:userapp/constants/config.dart';
 
 String displayLeadingZero(int number) {
   return number.toString().length == 1 ? "0$number" : "$number";
@@ -27,4 +29,8 @@ Map<String, dynamic> displayStatusType({required int type}) {
         "color": Colors.blue,
       };
   }
+}
+
+String checkAvatar() {
+  return userinfo == null || userinfo!.profilePic == "" ? "https://via.placeholder.com/150" : "$fileUrl/${userinfo!.profilePic}";
 }

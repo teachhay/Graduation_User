@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:userapp/constants/config.dart';
 // import 'package:userapp/models/appointment.model.dart';
 import 'package:userapp/models/cart.model.dart';
 import 'package:userapp/widgets/appbar.dart';
@@ -60,9 +61,9 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                     ),
                     const CustomVerticalDivider(sizeBoxheight: 3),
-                    SectionDetail(title: "Shop name:", value: "${cart.getShop?.name}"),
+                    SectionDetail(title: "Shop name:", value: cart.getShop!.name),
                     SectionDetail(title: "# of appointments:", value: "${cart.getServices.length}"),
-                    const SectionDetail(title: "Book by:", value: "User 1"),
+                    SectionDetail(title: "Book by:", value: "${userinfo!.firstName} ${userinfo!.lastName}"),
                   ],
                 ),
               ),
@@ -88,6 +89,7 @@ class _CartScreenState extends State<CartScreen> {
                 ],
               ),
               const SizedBox(height: 8),
+              //FIXME bug when remove services from the list
               Consumer<Cart>(
                 builder: (context, cart, child) {
                   return ListView.builder(

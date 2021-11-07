@@ -22,9 +22,9 @@ class CustomDrawer extends StatelessWidget {
             ),
             child: Container(
               alignment: Alignment.bottomLeft,
-              child: const Text(
-                "User 1",
-                style: TextStyle(
+              child: Text(
+                userinfo!.firstName + " " + userinfo!.lastName,
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

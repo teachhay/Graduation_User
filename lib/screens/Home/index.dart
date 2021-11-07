@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // ignore: unused_import
 import 'package:userapp/constants/config.dart';
+import 'package:userapp/constants/functions.dart';
 import 'package:userapp/models/cart.model.dart';
 import 'package:userapp/screens/Home/components/category_list_card.dart';
 import 'package:userapp/screens/Home/components/shop_card.dart';
@@ -102,16 +103,16 @@ class HomePage extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
+            children: [
               Text(
-                "Welcome back!",
-                style: TextStyle(
+                "Welcome back, ${userinfo!.firstName}!",
+                style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               CircleAvatar(
-                backgroundImage: NetworkImage("https://scontent.fpnh7-1.fna.fbcdn.net/v/t1.6435-9/203765174_3022888314627410_829940207297098355_n.jpg?_nc_cat=103&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeHtGeTsl_W0Hap9GgEnOMpxauurmcxsncxq66uZzGydzC7rSb2ob2mzR_-fGvsNYOkhv8spFCN_7Hs57oPUBzZf&_nc_ohc=NXECgTyZ-BEAX8gZZve&_nc_ht=scontent.fpnh7-1.fna&oh=fa02f3ddc961e88a95632ec3819619be&oe=619530D4"),
+                backgroundImage: NetworkImage(checkAvatar()), //REWORK change to rounded square design
               ),
             ],
           ),

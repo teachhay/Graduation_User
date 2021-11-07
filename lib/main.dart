@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
 
     print("Token - $token");
 
-    //TODO Fetch userinfo based on token
+    //REWORK Fetch userinfo based on token
     if (userinfo == null) {
       dynamic response = await fetchUserInfo();
 
@@ -109,7 +109,7 @@ class MainMaterialApp extends StatelessWidget {
           // scaffoldBackgroundColor: Colors.white,
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: token != "" ? "/profile" : "/login",
+        initialRoute: token != "" ? "/home" : "/login",
         navigatorKey: navigatorKey,
         onGenerateRoute: (settings) {
           // print("Route ${settings.name}");

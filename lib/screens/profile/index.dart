@@ -54,7 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(borderRadius - 2),
                       child: Image.network(
-                        userinfo == null || userinfo!.profilePic == "" ? "https://via.placeholder.com/150" : "$fileUrl/${userinfo!.profilePic}",
+                        checkAvatar(),
                         fit: BoxFit.cover,
                       ),
                     ),

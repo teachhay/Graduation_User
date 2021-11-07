@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:userapp/constants/config.dart';
 import 'package:userapp/models/appointment.model.dart';
 import 'package:userapp/models/response.model.dart';
 import 'package:userapp/services/appointment.service.dart';
@@ -18,7 +19,7 @@ class OrderScreen extends StatefulWidget {
 
 class _OrderScreenState extends State<OrderScreen> {
   Map<String, dynamic> query = {
-    "userId": "61445de53e57b9c71d2c90ce", //FIXME replace userId from logged in user
+    "userId": userinfo!.id,
   };
 
   @override
