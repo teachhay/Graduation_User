@@ -20,6 +20,23 @@ class LoginResponse {
   }
 }
 
+class UserInfoResponse {
+  final int meta;
+  final User userInfo;
+
+  const UserInfoResponse({
+    required this.meta,
+    required this.userInfo,
+  });
+
+  factory UserInfoResponse.fromJson(Map<String, dynamic> json) {
+    return UserInfoResponse(
+      meta: json["meta"] as int,
+      userInfo: User.fromJson(json["user"]),
+    );
+  }
+}
+
 class GetsResponse {
   final int meta;
   dynamic results;

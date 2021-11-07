@@ -110,11 +110,30 @@ class AuthRequest {
       print("Calling parameters: $data");
 
       final response = await http.post(Uri.parse("$authUrl/$url"), body: jsonEncode(data), headers: headers).timeout(const Duration(seconds: 5));
-      LoginResponse post = LoginResponse.fromJson(_response(response));
 
-      print(post.meta);
+      return _response(response);
+    } on SocketException catch (e) {
+      throw Exception(e.message);
+    } on TimeoutException catch (e) {
+      throw Exception(e.message);
+    }
+  }
 
-      return post;
+  Future<dynamic> getApiCall(String url, {dynamic params}) async {
+    try {
+      print("Calling GET AUTH API: /$url");
+
+      final dynamic response;
+
+      if (params != null) {
+        String queryString = Uri(queryParameters: params).query;
+
+        response = await http.get(Uri.parse("$authUrl/$url?" + queryString), headers: headers);
+      } else {
+        response = await http.get(Uri.parse("$authUrl/$url"), headers: headers);
+      }
+
+      return _response(response);
     } on SocketException catch (e) {
       throw Exception(e.message);
     } on TimeoutException catch (e) {
@@ -132,8 +151,8 @@ dynamic _response(http.Response response) {
     case 201:
       return responseJson;
     case 400:
-      // return BadRequestException(response.body.toString());
-      return responseJson;
+      throw responseJson;
+    // return BadRequestException(response.body.toString());
     case 401:
       if (responseJson["meta"] == 4001) {
         navigatorKey!.currentState!.pushReplacementNamed('/login');
@@ -141,10 +160,16 @@ dynamic _response(http.Response response) {
 
       return responseJson;
     case 403:
-      return UnauthorisedException(response.body.toString());
+      throw responseJson;
+    // return UnauthorisedException(response.body.toString());
+    case 404:
+      throw responseJson;
+    // return BadRequestException(response.body.toString());
     case 500:
+      throw responseJson;
+    // return BadRequestException(response.body.toString());
     default:
-      return responseJson;
+      throw responseJson;
     // throw FetchDataException('Error occured while Communication with Server with StatusCode: ${response.statusCode}');
   }
 }
@@ -166,11 +191,11 @@ class FetchDataException extends CustomException {
 }
 
 class BadRequestException extends CustomException {
-  BadRequestException([message]) : super(message, "Invalid Request: ");
+  BadRequestException([String? message]) : super(message, "Invalid Request: ");
 }
 
 class UnauthorisedException extends CustomException {
-  UnauthorisedException([message]) : super(message, "Unauthorised: ");
+  UnauthorisedException([String? message]) : super(message, "Unauthorised: ");
 }
 
 class InvalidInputException extends CustomException {

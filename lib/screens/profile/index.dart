@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:userapp/constants/api.dart';
-import 'package:userapp/screens/profile/components/custom_input_label.dart';
-import 'package:userapp/screens/profile/components/profile_bottom_navigation_bar.dart';
+import 'package:userapp/constants/config.dart';
+import 'package:userapp/constants/functions.dart';
 import 'package:userapp/widgets/appbar.dart';
+
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
+}
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -13,17 +18,9 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final double borderRadius = 10;
-  bool isUpdate = false;
-  TextEditingController firstNameController = TextEditingController(text: "John");
-  TextEditingController lastNameController = TextEditingController(text: "Doe");
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> userData = {
-      "firstName": firstNameController.text,
-      "lastName": lastNameController.text,
-    };
-
     return Scaffold(
       appBar: const CustomAppBar(
         title: Text("Profile Page"),
@@ -57,7 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(borderRadius - 2),
                       child: Image.network(
-                        "$fileUrl/08355a38e1897627e62076628d036bc4.jpg", //FIXME replace user's profile from userInfo
+                        userinfo == null || userinfo!.profilePic == "" ? "https://via.placeholder.com/150" : "$fileUrl/${userinfo!.profilePic}",
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -86,128 +83,132 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
               const SizedBox(height: 14),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomInputLabel(text: "Firstname", isUpdate: isUpdate),
-                  TextField(
-                    controller: firstNameController,
-                    readOnly: !isUpdate,
-                    decoration: InputDecoration(
-                      hintText: 'Enter first name',
-                      contentPadding: EdgeInsets.zero,
-                      enabled: isUpdate,
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(borderRadius - 4),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 8,
+                      color: Colors.grey.shade300,
+                      offset: const Offset(0, 2),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomInputLabel(text: "Lastname", isUpdate: isUpdate),
-                  TextField(
-                    controller: lastNameController,
-                    readOnly: !isUpdate,
-                    decoration: InputDecoration(
-                      hintText: 'Enter last name',
-                      contentPadding: EdgeInsets.zero,
-                      enabled: isUpdate,
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Firstname",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          userinfo!.firstName,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomInputLabel(text: "Date of birth", isUpdate: isUpdate),
-                  TextField(
-                    readOnly: !isUpdate,
-                    decoration: InputDecoration(
-                      hintText: 'Select date of birth',
-                      contentPadding: EdgeInsets.zero,
-                      enabled: isUpdate,
+                    const SizedBox(height: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Lastname",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          userinfo!.lastName,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomInputLabel(text: "Email", isUpdate: isUpdate),
-                  TextField(
-                    readOnly: !isUpdate,
-                    decoration: InputDecoration(
-                      hintText: 'Enter email',
-                      contentPadding: EdgeInsets.zero,
-                      enabled: isUpdate,
+                    const SizedBox(height: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Date of birth",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          "${displayLeadingZero(userinfo!.dob.month)}/${displayLeadingZero(userinfo!.dob.day)}/${displayLeadingZero(userinfo!.dob.year)}",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomInputLabel(text: "Password", isUpdate: isUpdate),
-                  TextField(
-                    readOnly: !isUpdate,
-                    decoration: InputDecoration(
-                      hintText: 'Enter password',
-                      contentPadding: EdgeInsets.zero,
-                      enabled: isUpdate,
+                    const SizedBox(height: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Email",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          userinfo!.email,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomInputLabel(text: "Phone number", isUpdate: isUpdate),
-                  TextField(
-                    readOnly: !isUpdate,
-                    decoration: InputDecoration(
-                      hintText: 'Enter phone number',
-                      contentPadding: EdgeInsets.zero,
-                      enabled: isUpdate,
+                    const SizedBox(height: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Phonenumber",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          userinfo!.phoneNumber,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              const SizedBox(height: 18),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomInputLabel(text: "Role Type", isUpdate: isUpdate),
-                  TextField(
-                    readOnly: !isUpdate,
-                    decoration: InputDecoration(
-                      hintText: 'Role type',
-                      contentPadding: EdgeInsets.zero,
-                      enabled: isUpdate,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomInputLabel(text: "Status", isUpdate: isUpdate),
-                  TextField(
-                    readOnly: !isUpdate,
-                    decoration: InputDecoration(
-                      hintText: 'Status',
-                      contentPadding: EdgeInsets.zero,
-                      enabled: isUpdate,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 14),
               Stack(
                 alignment: Alignment.centerLeft,
                 children: [
@@ -228,178 +229,134 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 18),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomInputLabel(text: "House number", isUpdate: isUpdate),
-                  TextField(
-                    readOnly: !isUpdate,
-                    decoration: InputDecoration(
-                      hintText: 'Enter house number',
-                      contentPadding: EdgeInsets.zero,
-                      enabled: isUpdate,
+              const SizedBox(height: 14),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(borderRadius - 4),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 8,
+                      color: Colors.grey.shade300,
+                      offset: const Offset(0, 2),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomInputLabel(text: "Street number", isUpdate: isUpdate),
-                  TextField(
-                    readOnly: !isUpdate,
-                    decoration: InputDecoration(
-                      hintText: 'Enter street number',
-                      contentPadding: EdgeInsets.zero,
-                      enabled: isUpdate,
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "House number",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          userinfo!.address.house.toString(),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomInputLabel(text: "City", isUpdate: isUpdate),
-                  TextField(
-                    readOnly: !isUpdate,
-                    decoration: InputDecoration(
-                      hintText: 'Enter City',
-                      contentPadding: EdgeInsets.zero,
-                      enabled: isUpdate,
+                    const SizedBox(height: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Street number",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          userinfo!.address.street.toString(),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomInputLabel(text: "State", isUpdate: isUpdate),
-                  TextField(
-                    readOnly: !isUpdate,
-                    decoration: InputDecoration(
-                      hintText: 'Enter state',
-                      contentPadding: EdgeInsets.zero,
-                      enabled: isUpdate,
+                    const SizedBox(height: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "State",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          userinfo!.address.state.toString(),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomInputLabel(text: "Country", isUpdate: isUpdate),
-                  TextField(
-                    readOnly: !isUpdate,
-                    decoration: InputDecoration(
-                      hintText: 'Enter country',
-                      contentPadding: EdgeInsets.zero,
-                      enabled: isUpdate,
+                    const SizedBox(height: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "City",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          userinfo!.address.city.toString(),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomInputLabel(text: "Zipcode", isUpdate: isUpdate),
-                  TextField(
-                    readOnly: !isUpdate,
-                    decoration: InputDecoration(
-                      hintText: 'Enter zipcode',
-                      contentPadding: EdgeInsets.zero,
-                      enabled: isUpdate,
+                    const SizedBox(height: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Country",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          userinfo!.address.country.toString(),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              const SizedBox(height: 18),
             ],
           ),
-        ),
-      ),
-      // bottomNavigationBar: ProfileBottomNavigationBar(
-      //   userData: userData,
-      //   isUpdate: isUpdate,
-      //   updateIsUpdate: () => setState(() => isUpdate = !isUpdate),
-      // ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          // borderRadius: const BorderRadius.only(
-          //   topLeft: Radius.circular(12),
-          //   topRight: Radius.circular(12),
-          // ),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 6,
-              offset: const Offset(0, -2),
-              color: Colors.grey.shade400,
-            ),
-          ],
-        ),
-        child: ElevatedButton.icon(
-          icon: Icon(
-            isUpdate ? Icons.save : Icons.edit,
-            size: 18,
-          ),
-          label: Text(isUpdate ? "Save" : "Edit"),
-          style: ElevatedButton.styleFrom(
-            primary: isUpdate ? Colors.green : Theme.of(context).primaryColorDark,
-          ),
-          onPressed: () async {
-            if (isUpdate == true) {
-              print(userData);
-            }
-
-            // if (isUpdate == true) {
-            //   dynamic response = await updateUserInfo(user: "");
-
-            //   if (response is ErrorResponse) {
-            //     ScaffoldMessenger.of(context).showSnackBar(
-            //       SnackBar(
-            //         content: Text(response.message),
-            //         duration: const Duration(seconds: 2),
-            //       ),
-            //     );
-
-            //     return;
-            //   }
-
-            //   if (response is PostResponse) {
-            //     PostResponse tempRes = response;
-
-            //     if (tempRes.meta == 200) {
-            //       ScaffoldMessenger.of(context).showSnackBar(
-            //         const SnackBar(
-            //           content: Text("Update successful"),
-            //           duration: Duration(seconds: 2),
-            //         ),
-            //       );
-            //       return;
-            //     }
-            //   }
-
-            //   ScaffoldMessenger.of(context).showSnackBar(
-            //     const SnackBar(
-            //       content: Text("General Error"),
-            //       duration: Duration(seconds: 2),
-            //     ),
-            //   );
-            // }
-
-            // updateIsUpdate();
-            setState(() {
-              print(isUpdate);
-              isUpdate = !isUpdate;
-            });
-          },
         ),
       ),
     );
