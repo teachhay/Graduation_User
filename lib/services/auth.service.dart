@@ -33,6 +33,8 @@ Future<dynamic> fetchUserInfo() async {
 
     return null;
   } catch (e) {
-    return ErrorResponse.fromJson(jsonDecode(jsonEncode(e)));
+    print(e);
+    return null;
+    // return ErrorResponse.fromJson(jsonDecode(jsonEncode(e)));
   }
 }

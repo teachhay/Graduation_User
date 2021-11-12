@@ -67,7 +67,7 @@ class GetsResponse {
 }
 
 class GetResponse {
-  final int meta;
+  final dynamic meta;
   dynamic data;
 
   GetResponse({
@@ -77,7 +77,7 @@ class GetResponse {
 
   factory GetResponse.fromJson(Map<String, dynamic> json) {
     return GetResponse(
-      meta: json["meta"] as int,
+      meta: json["meta"] as dynamic,
       data: json["data"] as dynamic,
     );
   }
@@ -101,7 +101,7 @@ class PostResponse {
 }
 
 class ErrorResponse {
-  final int meta;
+  final dynamic meta;
   final String message;
 
   const ErrorResponse({
@@ -111,7 +111,7 @@ class ErrorResponse {
 
   factory ErrorResponse.fromJson(Map<String, dynamic> json) {
     return ErrorResponse(
-      meta: json["meta"] as int,
+      meta: json["meta"] as dynamic,
       message: json["message"] as String,
     );
   }

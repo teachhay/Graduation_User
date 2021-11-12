@@ -156,6 +156,7 @@ dynamic _response(http.Response response) {
     case 401:
       if (responseJson["meta"] == 4001) {
         navigatorKey!.currentState!.pushReplacementNamed('/login');
+        throw responseJson;
       }
 
       return responseJson;

@@ -105,7 +105,7 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Welcome back, ${userinfo!.firstName}!",
+                "Welcome back, ${userinfo?.firstName}!",
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
