@@ -4,6 +4,7 @@ import 'package:userapp/models/appointment.model.dart';
 import 'package:userapp/models/response.model.dart';
 import 'package:userapp/services/appointment.service.dart';
 import 'package:userapp/widgets/appbar.dart';
+import 'package:userapp/widgets/empty_data_indicator.dart';
 import 'package:userapp/widgets/general_indicator.dart';
 import 'package:userapp/widgets/loading_indicator.dart';
 import 'package:userapp/widgets/section_title.dart';
@@ -60,6 +61,10 @@ class _OrderScreenState extends State<OrderScreen> {
                     }
 
                     List<Appointment> appointments = snapshot.data ?? [];
+
+                    if (appointments.isEmpty) {
+                      return const GeneralIndicator(child: EmptyDataIndicator(message: "No orders found"));
+                    }
 
                     return ListView.builder(
                       shrinkWrap: true,

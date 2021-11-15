@@ -48,7 +48,7 @@ class _ConfirmCartScreenState extends State<ConfirmCartScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const CustomVerticalDivider(sizeBoxheight: 6, dividerThickness: 2),
+              CustomVerticalDivider(sizeBoxheight: 6, dividerThickness: 2, dividerColor: Colors.grey.shade300),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -92,7 +92,7 @@ class _ConfirmCartScreenState extends State<ConfirmCartScreen> {
                   ),
                 ],
               ),
-              const CustomVerticalDivider(sizeBoxheight: 6, dividerThickness: 2),
+              CustomVerticalDivider(sizeBoxheight: 6, dividerThickness: 2, dividerColor: Colors.grey.shade300),
               const Text(
                 "Services",
                 style: TextStyle(
@@ -114,7 +114,7 @@ class _ConfirmCartScreenState extends State<ConfirmCartScreen> {
                 },
               ),
               // for (var i = 0; i < 20; i++) ServiceSubCard(i: i),
-              const CustomVerticalDivider(sizeBoxheight: 6, dividerThickness: 2),
+              CustomVerticalDivider(sizeBoxheight: 6, dividerThickness: 2, dividerColor: Colors.grey.shade300),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,

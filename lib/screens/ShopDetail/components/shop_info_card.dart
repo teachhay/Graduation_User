@@ -32,7 +32,7 @@ class ShopInfoCard extends StatelessWidget {
                 color: Colors.red,
                 borderRadius: BorderRadius.circular(8),
                 image: DecorationImage(
-                  image: NetworkImage("$fileUrl/${shop.logo}"),
+                  image: NetworkImage(shop.logo == "" ? "https://via.placeholder.com/150" : "$fileUrl/${shop.logo}"),
                   fit: BoxFit.cover,
                 ),
               ),

@@ -6,6 +6,7 @@ import 'package:userapp/screens/home/components/shop_card.dart';
 import 'package:userapp/services/sell_company.service.dart';
 import 'package:userapp/widgets/appbar.dart';
 import 'package:userapp/widgets/empty_data_indicator.dart';
+import 'package:userapp/widgets/general_indicator.dart';
 import 'package:userapp/widgets/loading_indicator.dart';
 
 class DetailByCategory extends StatefulWidget {
@@ -91,7 +92,7 @@ class _DetailByCategoryState extends State<DetailByCategory> {
                           color: Colors.transparent,
                           borderRadius: BorderRadius.circular(8),
                           image: DecorationImage(
-                            image: NetworkImage("$fileUrl/${widget.category.image}"),
+                            image: NetworkImage(widget.category.image == "" ? "https://via.placeholder.com/150" : "$fileUrl/${widget.category.image}"),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -117,18 +118,18 @@ class _DetailByCategoryState extends State<DetailByCategory> {
                   if (response.meta == 200) {
                     List<SellCompany> shops = response.results ?? [];
 
-                    if (shops.isNotEmpty) {
-                      return SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Column(
-                          children: [
-                            for (var i in shops) ShopCard(shop: i),
-                          ],
-                        ),
-                      );
+                    if (shops.isEmpty) {
+                      return const GeneralIndicator(child: EmptyDataIndicator(message: "No shops exist in this category"));
                     }
 
-                    return const EmptyDataIndicator(message: "No shops exist in this category");
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Column(
+                        children: [
+                          for (var i in shops) ShopCard(shop: i),
+                        ],
+                      ),
+                    );
                   }
 
                   return Container(

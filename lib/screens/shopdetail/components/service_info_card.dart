@@ -5,6 +5,8 @@ import 'package:userapp/models/cart.model.dart';
 import 'package:userapp/models/sell_company.model.dart';
 import 'package:userapp/models/service.model.dart';
 import 'package:userapp/services/service.service.dart';
+import 'package:userapp/widgets/empty_data_indicator.dart';
+import 'package:userapp/widgets/general_indicator.dart';
 
 class ServiceInfoCard extends StatelessWidget {
   const ServiceInfoCard({Key? key, required this.shop}) : super(key: key);
@@ -30,6 +32,10 @@ class ServiceInfoCard extends StatelessWidget {
         }
 
         List<ShopService> services = snapshot.data ?? [];
+
+        if (services.isEmpty) {
+          return const GeneralIndicator(child: EmptyDataIndicator(message: "No services found"));
+        }
 
         return ListView.builder(
           shrinkWrap: true,

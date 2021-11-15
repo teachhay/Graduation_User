@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:userapp/constants/config.dart';
 import 'package:userapp/models/appointment.model.dart';
 import 'package:userapp/models/request.model.dart';
 import 'package:userapp/models/response.model.dart';
@@ -10,7 +11,7 @@ Future<dynamic> createAppointment({SellCompany? shop, List<SubService>? subServi
   try {
     Map<String, dynamic> data = {
       "sellCompany": shop!.id,
-      "userId": "61445de53e57b9c71d2c90ce",
+      "userId": userinfo!.id,
       "services": subServices!.map((item) {
         return {
           "id": item.id,
