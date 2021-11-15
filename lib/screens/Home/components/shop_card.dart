@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:userapp/constants/api.dart';
 import 'package:userapp/models/sell_company.model.dart';
 import 'package:userapp/screens/shopdetail/index.dart';
 import 'package:userapp/services/sell_company.service.dart';
@@ -81,8 +82,8 @@ class ShopCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(8),
-                  image: const DecorationImage(
-                    image: NetworkImage("https://via.placeholder.com/300"),
+                  image: DecorationImage(
+                    image: NetworkImage("$fileUrl/${shop.logo}"),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -109,7 +110,7 @@ class ShopCard extends StatelessWidget {
                     Divider(thickness: 2, color: Colors.grey.shade200),
                     Flexible(
                       child: Text(
-                        shop.remark,
+                        shop.description,
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.grey.shade600,

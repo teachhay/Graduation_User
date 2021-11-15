@@ -18,7 +18,7 @@ Map<String, dynamic> displayStatusType({required int type}) {
         "value": "Completed",
         "color": Colors.green,
       };
-    case 0:
+    case -1:
       return {
         "value": "Cancel",
         "color": Colors.red,

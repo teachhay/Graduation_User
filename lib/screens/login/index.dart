@@ -20,6 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final bool isLoading = false;
 
   handleLogin() async {
+    FocusScope.of(context).unfocus();
+
     dynamic response = await login(emailController.text, passwordController.text);
 
     if (response.meta == 200) {
@@ -29,9 +31,13 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
+    passwordController.clear();
+    emailController.clear();
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        duration: const Duration(seconds: 5),
+        backgroundColor: Colors.red,
+        duration: const Duration(seconds: 8),
         content: Text(response.message),
       ),
     );

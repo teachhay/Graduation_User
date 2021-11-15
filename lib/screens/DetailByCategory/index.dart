@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:userapp/constants/api.dart';
 import 'package:userapp/models/category.model.dart';
 import 'package:userapp/models/sell_company.model.dart';
 import 'package:userapp/screens/home/components/shop_card.dart';
@@ -89,8 +90,8 @@ class _DetailByCategoryState extends State<DetailByCategory> {
                         decoration: BoxDecoration(
                           color: Colors.transparent,
                           borderRadius: BorderRadius.circular(8),
-                          image: const DecorationImage(
-                            image: NetworkImage("https://via.placeholder.com/300"),
+                          image: DecorationImage(
+                            image: NetworkImage("$fileUrl/${widget.category.image}"),
                             fit: BoxFit.cover,
                           ),
                         ),

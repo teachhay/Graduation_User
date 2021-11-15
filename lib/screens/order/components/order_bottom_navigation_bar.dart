@@ -40,7 +40,7 @@ class OrderDetailBottomNavigationBar extends StatelessWidget {
                 actions: <Widget>[
                   TextButton(
                     onPressed: () async {
-                      Status status = Status(type: 0, date: DateTime.now());
+                      Status status = Status(type: -1, date: DateTime.now());
                       appointment.status.insert(0, status);
 
                       final dynamic response = await cancelAppointment(appointment: appointment);

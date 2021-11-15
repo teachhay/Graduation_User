@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:userapp/constants/api.dart';
 import 'package:userapp/models/category.model.dart';
 import 'package:userapp/models/sell_company.model.dart';
 
@@ -30,8 +31,8 @@ class ShopInfoCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.red,
                 borderRadius: BorderRadius.circular(8),
-                image: const DecorationImage(
-                  image: NetworkImage("https://via.placeholder.com/300"),
+                image: DecorationImage(
+                  image: NetworkImage("$fileUrl/${shop.logo}"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -77,18 +78,18 @@ class ShopInfoCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 10),
-                        Expanded(
-                          flex: 1,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: const [
-                              Icon(Icons.star, size: 20),
-                              SizedBox(width: 5),
-                              Text("3.5 / 5", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        ),
+                        // Expanded(
+                        //   flex: 1,
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.end,
+                        //     crossAxisAlignment: CrossAxisAlignment.center,
+                        //     children: const [
+                        //       Icon(Icons.star, size: 20),
+                        //       SizedBox(width: 5),
+                        //       Text("3.5 / 5", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

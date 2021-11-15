@@ -89,17 +89,18 @@ class CardContainer extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   const Divider(thickness: 2),
-                  const SizedBox(height: 5),
-                  Text(
-                    service.remark,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
+                  if (service.remark != "") const SizedBox(height: 5),
+                  if (service.remark != "")
+                    Text(
+                      service.remark,
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
                     ),
-                  ),
                   Container(
-                    margin: const EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(top: 5),
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () async {
