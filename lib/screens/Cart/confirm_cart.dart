@@ -127,7 +127,7 @@ class _ConfirmCartScreenState extends State<ConfirmCartScreen> {
                     ),
                   ),
                   Text(
-                    "${findSum()}",
+                    "\$ ${findSum()}",
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

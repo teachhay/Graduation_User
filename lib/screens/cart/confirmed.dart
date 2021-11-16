@@ -34,9 +34,9 @@ class _ConfirmScreenState extends State<ConfirmScreen> with SingleTickerProvider
               ),
               const SizedBox(height: 20),
               const Text(
-                "Sucessful",
+                "Appointment Confirm",
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),
               ),
